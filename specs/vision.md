@@ -14,6 +14,7 @@ asegurando que solo los productos completos y aprobados estén disponibles para 
 - Activar un producto cuando cumple los requisitos mínimos.
 - Descontinuar un producto que ya no se ofrece.
 - Consultar y listar productos por estado y categoría.
+- Actualizar los datos de un producto mientras no esté descontinuado.
 
 ## 4. Fuera de alcance (este release)
 - Control de inventario / stock.

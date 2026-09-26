@@ -64,19 +64,10 @@ classDiagram
         OFFICE
     }
 
-    class ProductRepository {
-        <<Port>>
-        +save(product)
-        +findById(id) Optional~Product~
-        +existsBySku(sku) boolean
-        +search(status, category, page, size) Page~Product~
-    }
-
     Product *-- Sku
     Product *-- "0..1" Price
     Product --> ProductStatus
     Product --> "0..1" ProductCategory
-    ProductRepository ..> Product : persiste
 ```
 
 ## 3. Invariantes
@@ -84,7 +75,7 @@ classDiagram
 | ID | Regla | Dónde se garantiza | Fuente | Criterios |
 | :--- | :--- | :--- | :--- | :--- |
 | INV-01 | El SKU tiene formato `AAA-9999`. | `Sku` (al construirse) | RF-01 | US01 CA-03 |
-| INV-02 | El SKU es único en el catálogo. | Caso de uso de registro (vía `ProductRepository.existsBySku`) | RF-01 | US01 CA-02 |
+| INV-02 | El SKU es único en el catálogo. | `RegisterProductService` (application), consultando `ProductPersistencePort.existsBySku` | RF-01 | US01 CA-02 |
 | INV-03 | El SKU nunca cambia. | `Product` (no expone método para cambiarlo) | RF-01, RF-02 | US02 CA-03 |
 | INV-04 | Nombre de 3 a 100 caracteres; descripción de máx. 500. | `Product` | RF-01, RF-02 | US01 CA-01, US02 CA-04 |
 | INV-05 | Precio mayor a 0 y máximo 2 decimales. | `Price` (al construirse) | RF-01 | US01 CA-04 |
@@ -96,11 +87,13 @@ classDiagram
 
 ## 4. Decisiones de modelado
 - **La categoría es un enum y no un Value Object:** el catálogo es cerrado; si fuera administrable, sería una entidad.
-- **La unicidad del SKU (INV-02) no puede validarla `Product` solo:** un objeto no conoce a los demás productos. Por eso se valida en el caso de uso, consultando el repositorio.
-- **`ProductRepository` es un puerto:** el dominio define *qué* necesita (guardar, buscar) sin saber *cómo* se implementa (base de datos, memoria). Se detalla en la arquitectura.
+- **La unicidad del SKU (INV-02) no puede validarla `Product` solo:** un objeto no conoce a los demás productos. Se valida en el servicio de aplicación, consultando el puerto de salida.
+- **El dominio no contiene puertos ni conoce la persistencia:** solo modelo, reglas y excepciones de dominio. Los puertos se definen en `application` (ver `architecture.md`).
 
 ```
 git add specs/architecture/domain-model.md
 git commit -m "design: modelo de dominio del producto con invariantes INV-01 a INV-10"
 
 ```
+
+## Paso 6: Arquitectura en capas

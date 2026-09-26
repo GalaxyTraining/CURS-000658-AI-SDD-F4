@@ -14,6 +14,7 @@
 - Permite modificar nombre, descripción, precio y categoría, con las mismas validaciones de RF-01.
 - El SKU nunca se modifica.
 - No se permite actualizar un producto **Descontinuado**.
+- Precio y categoría pueden reemplazarse, pero no eliminarse una vez informados.
 
 ### RF-03: Activar producto
 - Solo un producto en **Borrador** puede activarse.

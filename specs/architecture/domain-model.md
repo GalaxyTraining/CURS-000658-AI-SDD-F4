@@ -84,6 +84,7 @@ classDiagram
 | INV-08 | Un producto descontinuado no se modifica. | `Product.update()` | RF-02, RF-04 | US02 CA-02 |
 | INV-09 | Descontinuar exige motivo de al menos 10 caracteres. | `Product.discontinue()` | RF-04 | US04 CA-02 |
 | INV-10 | Un producto nunca se elimina. | No existe operación de borrado | RF-04 | US04 CA-04 |
+| INV-11 | Precio y categoría no pueden eliminarse una vez informados (un producto activo siempre está completo). | `Product.update()` | RF-02, visión §1 | US02 CA-05 |
 
 ## 4. Decisiones de modelado
 - **La categoría es un enum y no un Value Object:** el catálogo es cerrado; si fuera administrable, sería una entidad.

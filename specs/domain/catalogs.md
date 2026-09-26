@@ -11,3 +11,4 @@ Un valor fuera de estos catálogos debe ser rechazado.
 | `FOOD` | Alimentos y bebidas. |
 | `CLOTHING` | Ropa y accesorios. |
 | `OFFICE` | Útiles y artículos de oficina. |
+| `TOYS` | Toys |

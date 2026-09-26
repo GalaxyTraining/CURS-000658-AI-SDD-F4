@@ -4,7 +4,7 @@
 Aplicación única (monolito) con **arquitectura hexagonal** (puertos y adaptadores).
 Justificación en `adr/0001`.
 
-**Stack:** Java 21+, Spring Boot 3.5, Maven, base de datos H2 (en memoria).
+**Stack:** ver `tech-stack.md`.
 
 ## 2. Capas y regla de dependencia
 
@@ -91,7 +91,7 @@ cada clase se rastrea a una sola historia.
 ## 5. Estructura de paquetes
 
 ```text
-pe.galaxy.catalog
+pe.edu.galaxy.training.java.sdd.catalog
 ├── domain
 │   ├── model            # Product, Sku, Price, ProductStatus, ProductCategory
 │   └── exception        # InvalidStateTransitionException, ProductIncompleteException, ...

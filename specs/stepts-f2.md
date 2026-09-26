@@ -86,4 +86,28 @@ git commit -m "design: ADR 0001 a 0005 (hexagonal, acciones, UUID, errores, H2)"
 
 ## Paso 8: Diseño del contrato OpenAPI
 
+git add specs/api/
+
+````
+git add specs/api/
+git commit -m "contract: guía de diseño y contrato OpenAPI v1.0.0 (6 operaciones)"
+````
+
+## Paso 9: Validar el contrato antes de implementar
+
+````
+pip install pyyaml
+python tools/spec_lint.py
+````
+
+## Paso 10: Preparar las specs para la generación con IA
+
+CLAUDE.md
+.github/copilot-instructions.md
+specs/traceability.md
+prompts/01-implementar-operacion.md
+
+# Fase 3: implementación
+
+java -version
 

@@ -98,3 +98,4 @@ git commit -m "design: modelo de dominio del producto con invariantes INV-01 a I
 ```
 
 ## Paso 6: Arquitectura en capas
+

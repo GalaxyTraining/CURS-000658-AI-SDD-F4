@@ -7,3 +7,4 @@
 | [0003](0003-identificador-uuid.md) | UUID técnico; SKU como identificador de negocio | Aceptado |
 | [0004](0004-codigos-de-error.md) | Códigos HTTP según tipo de regla | Aceptado |
 | [0005](0005-base-de-datos-h2.md) | H2 en memoria con Spring Data JPA | Aceptado |
+| [0006](0006-spring-boot-4.md) | Spring Boot actualizado | Aceptado |

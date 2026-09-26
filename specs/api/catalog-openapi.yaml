@@ -1,0 +1,417 @@
+openapi: 3.0.3
+info:
+  title: Catálogo de Productos API
+  version: 1.0.0
+  description: >
+    Contrato REST del Catálogo de Productos (Spec-First).
+    Estados: domain/product-lifecycle.md. Categorías: domain/catalogs.md.
+    Errores: adr/0004. Convenciones: api/API-GUIDELINES.md.
+
+    Extensiones propias:
+    - `x-spec-refs`: requerimientos e historias que originan la operación.
+    - `x-transition`: transición de estado que produce la operación.
+servers:
+  - url: http://localhost:8080
+    description: Desarrollo local
+tags:
+  - name: Products
+    description: Gestión del catálogo de productos (US01-US05).
+
+paths:
+  /api/v1/products:
+    post:
+      tags: [Products]
+      summary: Registrar un producto
+      description: Crea el producto en estado DRAFT (RF-01).
+      operationId: registerProduct
+      x-spec-refs: [RF-01, US01]
+      x-transition: "- -> DRAFT"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterProductRequest'
+            examples:
+              completo:
+                summary: Producto con precio y categoría
+                value:
+                  sku: ELE-0001
+                  name: Mouse inalámbrico
+                  description: Mouse óptico de 3 botones
+                  price: 49.90
+                  category: ELECTRONICS
+              minimo:
+                summary: Solo datos obligatorios (US01 CA-06)
+                value:
+                  sku: OFF-0010
+                  name: Engrapador
+      responses:
+        '201':
+          description: Producto registrado en DRAFT
+          headers:
+            Location:
+              description: URL del producto creado
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+              examples:
+                creado:
+                  value:
+                    id: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+                    sku: ELE-0001
+                    name: Mouse inalámbrico
+                    description: Mouse óptico de 3 botones
+                    price: 49.90
+                    category: ELECTRONICS
+                    status: DRAFT
+                    discontinuationReason: null
+                    createdAt: '2026-09-26T15:00:00Z'
+                    updatedAt: '2026-09-26T15:00:00Z'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '409':
+          description: El SKU ya existe (DUPLICATE_SKU, INV-02)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: DUPLICATE_SKU
+                message: Ya existe un producto con SKU ELE-0001
+                details: []
+    get:
+      tags: [Products]
+      summary: Listar productos con filtros y paginación
+      operationId: searchProducts
+      x-spec-refs: [RF-05, US05]
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/ProductStatus'
+        - name: category
+          in: query
+          schema:
+            $ref: '#/components/schemas/ProductCategory'
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Página de productos que cumplen los filtros
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPageResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+  /api/v1/products/{productId}:
+    parameters:
+      - $ref: '#/components/parameters/ProductId'
+    get:
+      tags: [Products]
+      summary: Consultar un producto
+      operationId: getProduct
+      x-spec-refs: [RF-05, US05]
+      responses:
+        '200':
+          description: Datos del producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      tags: [Products]
+      summary: Actualizar datos de un producto
+      description: >
+        Solo se modifican los campos enviados; los omitidos no cambian. No se admite null:
+        precio y categoría pueden reemplazarse pero no quitarse (INV-11). El SKU y el estado
+        no forman parte del request y nunca se modifican (INV-03, ADR-0002).
+      operationId: updateProduct
+      x-spec-refs: [RF-02, US02]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductRequest'
+            examples:
+              nuevoPrecio:
+                value:
+                  price: 59.90
+      responses:
+        '200':
+          description: Producto actualizado (el estado no cambia)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/InvalidStateTransition'
+
+  /api/v1/products/{productId}/activate:
+    parameters:
+      - $ref: '#/components/parameters/ProductId'
+    post:
+      tags: [Products]
+      summary: Activar un producto
+      description: Solo desde DRAFT y con precio y categoría informados (RF-03).
+      operationId: activateProduct
+      x-spec-refs: [RF-03, US03]
+      x-transition: "DRAFT -> ACTIVE"
+      responses:
+        '200':
+          description: Producto activado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/InvalidStateTransition'
+        '422':
+          description: Falta precio o categoría (PRODUCT_INCOMPLETE, INV-07)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: PRODUCT_INCOMPLETE
+                message: El producto no puede activarse porque le faltan datos
+                details:
+                  - price
+                  - category
+
+  /api/v1/products/{productId}/discontinue:
+    parameters:
+      - $ref: '#/components/parameters/ProductId'
+    post:
+      tags: [Products]
+      summary: Descontinuar un producto
+      description: Desde DRAFT o ACTIVE, con motivo obligatorio. Estado final (RF-04).
+      operationId: discontinueProduct
+      x-spec-refs: [RF-04, US04]
+      x-transition: "DRAFT|ACTIVE -> DISCONTINUED"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscontinueProductRequest'
+            examples:
+              motivo:
+                value:
+                  reason: El proveedor dejó de fabricarlo
+      responses:
+        '200':
+          description: Producto descontinuado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/InvalidStateTransition'
+
+components:
+  parameters:
+    ProductId:
+      name: productId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    ValidationError:
+      description: Datos inválidos (VALIDATION_ERROR)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: VALIDATION_ERROR
+            message: La solicitud contiene datos inválidos
+            details:
+              - 'sku: debe cumplir el formato AAA-9999'
+    NotFound:
+      description: El producto no existe (PRODUCT_NOT_FOUND)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: PRODUCT_NOT_FOUND
+            message: No existe el producto solicitado
+            details: []
+    InvalidStateTransition:
+      description: Transición no permitida o producto descontinuado (INVALID_STATE_TRANSITION)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: INVALID_STATE_TRANSITION
+            message: No se puede activar un producto en estado DISCONTINUED
+            details: []
+
+  schemas:
+    ProductStatus:
+      type: string
+      description: Ver domain/product-lifecycle.md.
+      enum: [DRAFT, ACTIVE, DISCONTINUED]
+
+    ProductCategory:
+      type: string
+      description: Ver domain/catalogs.md.
+      enum: [ELECTRONICS, HOME, FOOD, CLOTHING, OFFICE, TOYS]
+
+    ErrorCode:
+      type: string
+      description: Ver adr/0004.
+      enum: [VALIDATION_ERROR, PRODUCT_NOT_FOUND, DUPLICATE_SKU, INVALID_STATE_TRANSITION, PRODUCT_INCOMPLETE]
+
+    RegisterProductRequest:
+      type: object
+      required: [sku, name]
+      properties:
+        sku:
+          type: string
+          pattern: '^[A-Z]{3}-\d{4}$'
+          description: Formato AAA-9999 (INV-01). Único (INV-02) e inmutable (INV-03).
+        name:
+          type: string
+          minLength: 3
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        price:
+          type: number
+          minimum: 0
+          exclusiveMinimum: true
+          multipleOf: 0.01
+          description: Mayor a 0, máximo 2 decimales, en PEN (INV-05).
+        category:
+          $ref: '#/components/schemas/ProductCategory'
+
+    UpdateProductRequest:
+      type: object
+      minProperties: 1
+      description: Solo los campos enviados se modifican. No admite null (INV-11).
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        price:
+          type: number
+          minimum: 0
+          exclusiveMinimum: true
+          multipleOf: 0.01
+        category:
+          $ref: '#/components/schemas/ProductCategory'
+
+    DiscontinueProductRequest:
+      type: object
+      required: [reason]
+      properties:
+        reason:
+          type: string
+          minLength: 10
+          maxLength: 500
+          description: Motivo obligatorio (INV-09).
+
+    ProductResponse:
+      type: object
+      required: [id, sku, name, status, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        sku:
+          type: string
+          pattern: '^[A-Z]{3}-\d{4}$'
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        price:
+          type: number
+          nullable: true
+        category:
+          allOf:
+            - $ref: '#/components/schemas/ProductCategory'
+          nullable: true
+        status:
+          $ref: '#/components/schemas/ProductStatus'
+        discontinuationReason:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ProductPageResponse:
+      type: object
+      required: [items, page, size, totalElements, totalPages]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductResponse'
+        page:
+          type: integer
+        size:
+          type: integer
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      required: [code, message, details]
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: string

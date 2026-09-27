@@ -35,3 +35,15 @@ de verdad: nada se implementa si no está especificado primero.
 8. **Idioma (`specs/conventions.md`):** código en inglés; documentación en castellano.
 9. **Antes de cada commit:** `python tools/spec_lint.py` debe dar OK y `mvn test` debe pasar.
 10. **Commits:** prefijos `spec:`, `design:`, `contract:`, `tooling:`, `feat:`, `test:`, `fix:`.
+
+## Stack y comandos
+Stack: `specs/architecture/tech-stack.md`. No agregues dependencias sin un ADR.
+
+| Acción | Comando |
+| :--- | :--- |
+| Validar specs y contrato | `python tools/spec_lint.py` |
+| Regenerar la API desde el contrato | `./mvnw clean generate-sources` |
+| Compilar y probar | `./mvnw test` |
+| Ejecutar la aplicación | `./mvnw spring-boot:run` |
+
+Nunca edites archivos dentro de `target/generated-sources`: se regeneran desde el contrato.

@@ -1,0 +1,36 @@
+<plugin>
+  <groupId>org.openapitools</groupId>
+  <artifactId>openapi-generator-maven-plugin</artifactId>
+  <version>7.22.0</version>
+  <executions>
+    <execution>
+      <id>generate-products-api</id>
+      <goals>
+        <goal>generate</goal>
+      </goals>
+      <configuration>
+        <inputSpec>${project.basedir}/specs/api/catalog-openapi.yaml</inputSpec>
+        <generatorName>spring</generatorName>
+        <apiPackage>pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated</apiPackage>
+        <modelPackage>pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model</modelPackage>
+        <generateSupportingFiles>false</generateSupportingFiles>
+        <generateApiTests>false</generateApiTests>
+        <generateModelTests>false</generateModelTests>
+        <generateApiDocumentation>false</generateApiDocumentation>
+        <generateModelDocumentation>false</generateModelDocumentation>
+        <configOptions>
+          <interfaceOnly>true</interfaceOnly>
+          <useSpringBoot4>true</useSpringBoot4>
+          <useJackson3>true</useJackson3>
+          <useTags>true</useTags>
+          <useBeanValidation>true</useBeanValidation>
+          <openApiNullable>false</openApiNullable>
+          <skipDefaultInterface>true</skipDefaultInterface>
+          <documentationProvider>none</documentationProvider>
+          <annotationLibrary>none</annotationLibrary>
+          <useResponseEntity>true</useResponseEntity>
+        </configOptions>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>

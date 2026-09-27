@@ -1,8 +1,8 @@
 package pe.edu.galaxy.training.java.sdd.catalog.application.service;
 
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.UpdateProductCommand;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.UpdateProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.command.UpdateProductCommand;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.UpdateProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.out.ProductPersistencePort;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductNotFoundException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.model.Price;
@@ -31,7 +31,7 @@ public class UpdateProductService implements UpdateProductUseCase {
                 .orElseThrow(() -> new ProductNotFoundException(command.productId()));
         Price price = command.price() == null ? null : Price.of(command.price());
         product.update(command.name(), command.description(), price,
-                ProductCategoryCodes.toCategory(command.category()), clock);
+                command.category(), clock);
         return ProductResult.from(persistence.save(product));
     }
 }

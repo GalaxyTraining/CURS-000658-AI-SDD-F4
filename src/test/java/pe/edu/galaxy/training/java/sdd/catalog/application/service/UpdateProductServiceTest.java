@@ -3,8 +3,8 @@ package pe.edu.galaxy.training.java.sdd.catalog.application.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.UpdateProductCommand;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.command.UpdateProductCommand;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.InvalidStateTransitionException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductNotFoundException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductValidationException;
@@ -46,7 +46,7 @@ class UpdateProductServiceTest {
         return persistence.findById(product.getId()).orElseThrow();
     }
 
-    private static UpdateProductCommand command(ProductId id, String name, BigDecimal price, String category) {
+    private static UpdateProductCommand command(ProductId id, String name, BigDecimal price, ProductCategory category) {
         return new UpdateProductCommand(id.value(), name, null, price, category);
     }
 
@@ -57,7 +57,7 @@ class UpdateProductServiceTest {
         String statusBefore = product.getStatus().name();
 
         ProductResult result = service.update(
-                command(product.getId(), "Gaming mouse", new BigDecimal("59.90"), "OFFICE"));
+                command(product.getId(), "Gaming mouse", new BigDecimal("59.90"), ProductCategory.OFFICE));
 
         assertEquals("Gaming mouse", result.name());
         assertEquals(new BigDecimal("59.90"), result.price());
@@ -97,15 +97,6 @@ class UpdateProductServiceTest {
         assertEquals("Wireless mouse", stored(product).getName());
         assertEquals(new BigDecimal("49.90"), stored(product).getPrice().amount());
         assertEquals(T0, stored(product).getUpdatedAt());
-    }
-
-    @Test
-    void US02_CA04_categoryOutsideCatalog_isRejectedAndUnchanged() {
-        Product product = saved(false);
-
-        assertThrows(ProductValidationException.class,
-                () -> service.update(command(product.getId(), null, null, "TOYS")));
-        assertEquals(ProductCategory.ELECTRONICS, stored(product).getCategory());
     }
 
     @Test

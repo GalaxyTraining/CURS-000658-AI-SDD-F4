@@ -1,9 +1,9 @@
 package pe.edu.galaxy.training.java.sdd.catalog.application.service;
 
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductPageResult;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsQuery;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductPageResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.query.SearchProductsQuery;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.SearchProductsUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.out.ProductPage;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.out.ProductPersistencePort;
 import org.springframework.stereotype.Service;
@@ -23,8 +23,8 @@ public class SearchProductsService implements SearchProductsUseCase {
     @Transactional(readOnly = true)
     public ProductPageResult search(SearchProductsQuery query) {
         ProductPage page = persistence.search(
-                ProductStatusCodes.toStatus(query.status()),
-                ProductCategoryCodes.toCategory(query.category()),
+                query.status(),
+                query.category(),
                 query.page(), query.size());
         int totalPages = (int) ((page.totalElements() + query.size() - 1) / query.size());
         return new ProductPageResult(

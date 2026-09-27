@@ -1,8 +1,8 @@
 package pe.edu.galaxy.training.java.sdd.catalog.application.service;
 
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductCommand;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.command.RegisterProductCommand;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.RegisterProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.out.ProductPersistencePort;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.DuplicateSkuException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.model.Price;
@@ -33,7 +33,7 @@ public class RegisterProductService implements RegisterProductUseCase {
         }
         Price price = command.price() == null ? null : Price.of(command.price());
         Product product = Product.register(sku, command.name(), command.description(), price,
-                ProductCategoryCodes.toCategory(command.category()), clock);
+                command.category(), clock);
         return ProductResult.from(persistence.save(product));
     }
 }

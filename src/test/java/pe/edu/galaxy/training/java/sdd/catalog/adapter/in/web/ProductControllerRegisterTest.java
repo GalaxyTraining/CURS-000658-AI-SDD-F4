@@ -6,14 +6,14 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductUseCase;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.DiscontinueProductUseCase;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductCommand;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsUseCase;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.UpdateProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.ActivateProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.DiscontinueProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.GetProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.command.RegisterProductCommand;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.RegisterProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.SearchProductsUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.UpdateProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.DuplicateSkuException;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -86,7 +86,8 @@ class ProductControllerRegisterTest {
         ArgumentCaptor<RegisterProductCommand> command = ArgumentCaptor.forClass(RegisterProductCommand.class);
         verify(registerProductUseCase).register(command.capture());
         assertThat(command.getValue()).isEqualTo(new RegisterProductCommand(
-                "ELE-0001", "Wireless mouse", null, new BigDecimal("49.90"), "ELECTRONICS"));
+                "ELE-0001", "Wireless mouse", null, new BigDecimal("49.90"),
+                pe.edu.galaxy.training.java.sdd.catalog.domain.model.ProductCategory.ELECTRONICS));
     }
 
     @Test

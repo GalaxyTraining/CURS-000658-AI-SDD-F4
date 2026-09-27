@@ -1,4 +1,4 @@
-package pe.edu.galaxy.training.java.sdd.catalog.application.port.in;
+package pe.edu.galaxy.training.java.sdd.catalog.application.port.in.query;
 
 import java.util.UUID;
 

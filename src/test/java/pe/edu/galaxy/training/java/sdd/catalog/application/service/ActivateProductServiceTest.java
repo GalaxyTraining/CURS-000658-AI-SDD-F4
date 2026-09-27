@@ -3,8 +3,8 @@ package pe.edu.galaxy.training.java.sdd.catalog.application.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductCommand;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.command.ActivateProductCommand;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductResult;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.InvalidStateTransitionException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductIncompleteException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductNotFoundException;

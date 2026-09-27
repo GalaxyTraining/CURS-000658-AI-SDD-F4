@@ -1,16 +1,15 @@
 package pe.edu.galaxy.training.java.sdd.catalog.application.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductPageResult;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsQuery;
-import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductValidationException;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductPageResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.query.SearchProductsQuery;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.model.Price;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.model.Product;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.model.ProductCategory;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.model.Sku;
+import pe.edu.galaxy.training.java.sdd.catalog.domain.model.ProductStatus;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
@@ -52,7 +51,7 @@ class SearchProductsServiceTest {
 
     @Test
     void US05_CA03_filterByStatus_returnsOnlyMatching() {
-        ProductPageResult result = service.search(new SearchProductsQuery("ACTIVE", null, 0, 20));
+        ProductPageResult result = service.search(new SearchProductsQuery(ProductStatus.ACTIVE, null, 0, 20));
 
         assertEquals(List.of("HOM-0000", "ELE-0001"), skus(result));
         assertEquals(2, result.totalElements());
@@ -60,14 +59,14 @@ class SearchProductsServiceTest {
 
     @Test
     void US05_CA03_filterByCategory_returnsOnlyMatching() {
-        ProductPageResult result = service.search(new SearchProductsQuery(null, "ELECTRONICS", 0, 20));
+        ProductPageResult result = service.search(new SearchProductsQuery(null, ProductCategory.ELECTRONICS, 0, 20));
 
         assertEquals(List.of("ELE-0001", "ELE-0002"), skus(result));
     }
 
     @Test
     void US05_CA03_filterByStatusAndCategory_returnsOnlyMatching() {
-        ProductPageResult result = service.search(new SearchProductsQuery("DRAFT", "ELECTRONICS", 0, 20));
+        ProductPageResult result = service.search(new SearchProductsQuery(ProductStatus.DRAFT, ProductCategory.ELECTRONICS, 0, 20));
 
         assertEquals(List.of("ELE-0002"), skus(result));
         assertEquals(1, result.totalElements());
@@ -79,12 +78,6 @@ class SearchProductsServiceTest {
 
         assertEquals(List.of("HOM-0000", "ELE-0001", "ELE-0002", "OFF-0003"), skus(result));
         assertEquals(1, result.totalPages());
-    }
-
-    @Test
-    void US05_CA03_unknownStatusCode_isRejected() {
-        assertThrows(ProductValidationException.class,
-                () -> service.search(new SearchProductsQuery("ARCHIVED", null, 0, 20)));
     }
 
     @Test
@@ -111,7 +104,7 @@ class SearchProductsServiceTest {
 
     @Test
     void US05_CA04_noMatches_hasZeroPages() {
-        ProductPageResult result = service.search(new SearchProductsQuery("DISCONTINUED", null, 0, 20));
+        ProductPageResult result = service.search(new SearchProductsQuery(ProductStatus.DISCONTINUED, null, 0, 20));
 
         assertEquals(0, result.totalElements());
         assertEquals(0, result.totalPages());

@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductCommand;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.command.RegisterProductCommand;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.DuplicateSkuException;
-import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductValidationException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.model.ProductId;
+import pe.edu.galaxy.training.java.sdd.catalog.domain.model.ProductCategory;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
@@ -28,7 +28,7 @@ class RegisterProductServiceTest {
     @Test
     void US01_CA01_validCommand_isSavedAsDraftWithClockTime() {
         ProductResult result = service.register(new RegisterProductCommand(
-                "ELE-0001", "Wireless mouse", "Ergonomic mouse", new BigDecimal("49.90"), "ELECTRONICS"));
+                "ELE-0001", "Wireless mouse", "Ergonomic mouse", new BigDecimal("49.90"), ProductCategory.ELECTRONICS));
 
         assertEquals("DRAFT", result.status());
         assertEquals("ELE-0001", result.sku());
@@ -45,13 +45,6 @@ class RegisterProductServiceTest {
         assertThrows(DuplicateSkuException.class,
                 () -> service.register(new RegisterProductCommand("ELE-0001", "Another mouse", null, null, null)));
         assertEquals(1, persistence.count());
-    }
-
-    @Test
-    void US01_CA05_categoryOutsideCatalog_isRejected() {
-        assertThrows(ProductValidationException.class,
-                () -> service.register(new RegisterProductCommand("ELE-0001", "Wireless mouse", null, null, "TOYS")));
-        assertEquals(0, persistence.count());
     }
 
     @Test

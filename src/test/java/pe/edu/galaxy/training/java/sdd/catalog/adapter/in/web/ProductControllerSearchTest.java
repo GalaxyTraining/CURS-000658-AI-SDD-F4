@@ -6,15 +6,15 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductUseCase;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.DiscontinueProductUseCase;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductPageResult;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsQuery;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsUseCase;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.UpdateProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.ActivateProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.DiscontinueProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.GetProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductPageResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.RegisterProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.query.SearchProductsQuery;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.SearchProductsUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.UpdateProductUseCase;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -71,7 +71,9 @@ class ProductControllerSearchTest {
 
     @Test
     void US05_CA03_filters_arePassedToQueryAndReturn200() {
-        when(searchProductsUseCase.search(new SearchProductsQuery("ACTIVE", "ELECTRONICS", 0, 20)))
+        when(searchProductsUseCase.search(new SearchProductsQuery(
+                pe.edu.galaxy.training.java.sdd.catalog.domain.model.ProductStatus.ACTIVE,
+                pe.edu.galaxy.training.java.sdd.catalog.domain.model.ProductCategory.ELECTRONICS, 0, 20)))
                 .thenReturn(new ProductPageResult(List.of(activeElectronics()), 0, 20, 1, 1));
 
         MvcTestResult result = get("?status=ACTIVE&category=ELECTRONICS");

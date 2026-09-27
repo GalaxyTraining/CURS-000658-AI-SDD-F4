@@ -3,8 +3,8 @@ package pe.edu.galaxy.training.java.sdd.catalog.application.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductQuery;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.query.GetProductQuery;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductResult;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductNotFoundException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.model.Price;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.model.Product;

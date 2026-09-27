@@ -1,8 +1,8 @@
 package pe.edu.galaxy.training.java.sdd.catalog.application.service;
 
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.DiscontinueProductCommand;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.DiscontinueProductUseCase;
-import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.command.DiscontinueProductCommand;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.usecase.DiscontinueProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result.ProductResult;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.out.ProductPersistencePort;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductNotFoundException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.model.Product;

@@ -1,4 +1,4 @@
-package pe.edu.galaxy.training.java.sdd.catalog.application.port.in;
+package pe.edu.galaxy.training.java.sdd.catalog.application.port.in.result;
 
 import pe.edu.galaxy.training.java.sdd.catalog.domain.model.Product;
 import java.math.BigDecimal;

@@ -8,6 +8,8 @@ import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.Pr
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.ProductStatus;
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.RegisterProductRequest;
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.UpdateProductRequest;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductQuery;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
 import java.net.URI;
@@ -21,10 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController implements ProductsApi {
 
     private final RegisterProductUseCase registerProductUseCase;
+    private final GetProductUseCase getProductUseCase;
     private final ProductWebMapper mapper;
 
-    public ProductController(RegisterProductUseCase registerProductUseCase, ProductWebMapper mapper) {
+    public ProductController(RegisterProductUseCase registerProductUseCase, GetProductUseCase getProductUseCase,
+                             ProductWebMapper mapper) {
         this.registerProductUseCase = registerProductUseCase;
+        this.getProductUseCase = getProductUseCase;
         this.mapper = mapper;
     }
 
@@ -45,8 +50,7 @@ public class ProductController implements ProductsApi {
 
     @Override
     public ResponseEntity<ProductResponse> getProduct(UUID productId) {
-        // TODO getProduct
-        throw new UnsupportedOperationException("getProduct is not implemented yet");
+        return ResponseEntity.ok(mapper.toResponse(getProductUseCase.get(new GetProductQuery(productId))));
     }
 
     @Override

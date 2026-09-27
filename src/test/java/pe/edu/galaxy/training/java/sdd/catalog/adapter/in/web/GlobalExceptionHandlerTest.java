@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.DuplicateSkuException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.InvalidStateTransitionException;
@@ -39,6 +40,9 @@ class GlobalExceptionHandlerTest {
 
     @MockitoBean
     private RegisterProductUseCase registerProductUseCase;
+
+    @MockitoBean
+    private GetProductUseCase getProductUseCase;
 
     static Stream<Arguments> domainExceptions() {
         return Stream.of(

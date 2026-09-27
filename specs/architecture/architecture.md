@@ -71,6 +71,10 @@ flowchart LR
 | `ProductResult`, `ProductPageResult` | `application.port.in` | `record` | Salida de los casos de uso (nunca se expone `Product`). |
 | `ProductJpaEntity` | `adapter.out.persistence` | Entidad JPA | Forma de la tabla. |
 
+Commands y Queries usan los enums del dominio (`ProductStatus`, `ProductCategory`). La conversión entre
+los enums generados del contrato y los del dominio ocurre solo en `ProductWebMapper` (adapter.in.web);
+es segura porque `tools/spec_lint.py` garantiza que ambos tienen los mismos valores.
+
 **Por qué tantos modelos:** si cambia el contrato, solo cambia el adaptador web; si cambia la tabla,
 solo el adaptador de persistencia. El dominio queda protegido de ambos cambios.
 

@@ -44,6 +44,7 @@ flowchart TB
 | `application.service` | Implementa `port.in`; orquesta dominio y `port.out`. | `domain`, `port.in`, `port.out` | `adapter` |
 | `adapter.in.web` | HTTP: DTO web, mapeo a Command, traducción de errores. | `application.port.in` | `application.service`, `domain` (solo sus excepciones para mapear errores), `adapter.out` |
 | `adapter.out.persistence` | Implementa `port.out` con JPA. | `application.port.out`, `domain` | `adapter.in` |
+| `config` | Ensamblaje: beans de configuración (composition root). | todas las capas | — (nadie depende de `config`) |
 
 **Regla clave:** el controlador solo conoce las interfaces de `port.in`, nunca los servicios.
 El servicio solo conoce `port.out`, nunca el adaptador JPA.
@@ -121,9 +122,9 @@ pe.edu.galaxy.training.java.sdd.catalog
         └── persistence  # ProductPersistenceAdapter, ProductJpaEntity, ProductPersistenceMapper, SpringDataProductJpa
 ```
 
-**Hora actual:** los servicios reciben un `java.time.Clock` inyectado (nunca `Instant.now()`).
-El bean `Clock` (`Clock.systemUTC()`) se declara en `CatalogoProductosApplication`; las pruebas lo reemplazan
-por un reloj fijo. No se crea un paquete `config`.
+**Ensamblaje (`config`):** beans de configuración que no son adaptadores (composition root).
+Los servicios reciben un `java.time.Clock` inyectado (nunca `Instant.now()`); el bean
+(`Clock.systemUTC()`) se declara en `config.ClockConfiguration` y las pruebas lo reemplazan por un reloj fijo.
 
 ## 6. Flujo de ejemplo: activar producto (US03)
 
@@ -167,4 +168,4 @@ sequenceDiagram
 ```
 
 Las reglas (INV-06, INV-07) se evalúan dentro de `Product`; el servicio orquesta y el controlador solo traduce.
-Los códigos HTTP son una propuesta; se confirman al diseñar el contrato.
+Los códigos HTTP y los `code` de error están definidos en ADR-0004.

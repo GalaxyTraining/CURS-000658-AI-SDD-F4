@@ -10,6 +10,7 @@ import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductQue
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductNotFoundException;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -40,6 +41,9 @@ class ProductControllerGetTest {
 
     @MockitoBean
     private GetProductUseCase getProductUseCase;
+
+    @MockitoBean
+    private SearchProductsUseCase searchProductsUseCase;
 
     private MvcTestResult get(String productId) {
         return mvc.get().uri(PATH + productId).exchange();

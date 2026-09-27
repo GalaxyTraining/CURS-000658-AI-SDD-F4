@@ -10,8 +10,10 @@ import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.Re
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.UpdateProductRequest;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductQuery;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductPageResult;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsUseCase;
 import java.net.URI;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +26,14 @@ public class ProductController implements ProductsApi {
 
     private final RegisterProductUseCase registerProductUseCase;
     private final GetProductUseCase getProductUseCase;
+    private final SearchProductsUseCase searchProductsUseCase;
     private final ProductWebMapper mapper;
 
     public ProductController(RegisterProductUseCase registerProductUseCase, GetProductUseCase getProductUseCase,
-                             ProductWebMapper mapper) {
+                             SearchProductsUseCase searchProductsUseCase, ProductWebMapper mapper) {
         this.registerProductUseCase = registerProductUseCase;
         this.getProductUseCase = getProductUseCase;
+        this.searchProductsUseCase = searchProductsUseCase;
         this.mapper = mapper;
     }
 
@@ -44,8 +48,8 @@ public class ProductController implements ProductsApi {
     public ResponseEntity<ProductPageResponse> searchProducts(@Nullable ProductStatus status,
                                                               @Nullable ProductCategory category,
                                                               Integer page, Integer size) {
-        // TODO searchProducts
-        throw new UnsupportedOperationException("searchProducts is not implemented yet");
+        ProductPageResult result = searchProductsUseCase.search(mapper.toQuery(status, category, page, size));
+        return ResponseEntity.ok(mapper.toPageResponse(result));
     }
 
     @Override

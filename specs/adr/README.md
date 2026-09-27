@@ -9,3 +9,4 @@
 | [0005](0005-base-de-datos-h2.md) | H2 en memoria con Spring Data JPA | Aceptado |
 | [0006](0006-spring-boot-4.md) | Spring Boot actualizado | Aceptado |
 | [0007](0007-error-interno-generico.md) | Error 500 genérico `INTERNAL_ERROR` sin detalles internos | Aceptado |
+| [0008](0008-swagger-ui-con-contrato.md) | Swagger UI con springdoc mostrando el contrato autoritativo | Aceptado |

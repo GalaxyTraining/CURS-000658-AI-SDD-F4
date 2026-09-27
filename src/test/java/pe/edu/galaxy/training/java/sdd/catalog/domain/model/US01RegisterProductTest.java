@@ -29,6 +29,15 @@ class US01RegisterProductTest {
         assertEquals(T0, product.getUpdatedAt());
     }
 
+    @Test
+    void US01_CA01_nameAndDescriptionWithSurroundingSpaces_areStoredStripped() {
+        Product product = Product.register(Sku.of("ELE-0001"), "  Wireless mouse ", "  Ergonomic mouse  ",
+                null, null, CLOCK_T0);
+
+        assertEquals("Wireless mouse", product.getName());
+        assertEquals("Ergonomic mouse", product.getDescription());
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"  ab  ", "   ", "ab"})
     void US01_CA01_nameShorterThanThreeCharactersWithoutSpaces_isRejected(String name) {

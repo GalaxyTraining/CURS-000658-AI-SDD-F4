@@ -51,6 +51,8 @@ public class Product {
     public static Product register(Sku sku, String name, String description, Price price,
                                    ProductCategory category, Clock clock) {
         Objects.requireNonNull(sku, "sku is required");
+        name = strip(name);
+        description = strip(description);
         List<String> errors = new ArrayList<>();
         validateName(name, errors);
         validateDescription(description, errors);
@@ -77,6 +79,8 @@ public class Product {
             throw new InvalidStateTransitionException("A discontinued product cannot be modified",
                     List.of("status: " + status));
         }
+        name = strip(name);
+        description = strip(description);
         List<String> errors = new ArrayList<>();
         if (name != null) {
             validateName(name, errors);
@@ -127,7 +131,8 @@ public class Product {
             throw new InvalidStateTransitionException("The product is already discontinued",
                     List.of("status: " + status));
         }
-        int length = reason == null ? 0 : reason.strip().length();
+        reason = strip(reason);
+        int length = reason == null ? 0 : reason.length();
         if (length < REASON_MIN || length > REASON_MAX) {
             throw new ProductValidationException("Invalid discontinuation reason",
                     List.of("reason: between " + REASON_MIN + " and " + REASON_MAX + " characters"));
@@ -137,15 +142,20 @@ public class Product {
         this.updatedAt = clock.instant();
     }
 
+    /** Name, description and reason are validated and stored without leading/trailing spaces. */
+    private static String strip(String value) {
+        return value == null ? null : value.strip();
+    }
+
     private static void validateName(String name, List<String> errors) {
-        int length = name == null ? 0 : name.strip().length();
+        int length = name == null ? 0 : name.length();
         if (length < NAME_MIN || length > NAME_MAX) {
             errors.add("name: between " + NAME_MIN + " and " + NAME_MAX + " characters");
         }
     }
 
     private static void validateDescription(String description, List<String> errors) {
-        if (description != null && description.strip().length() > DESCRIPTION_MAX) {
+        if (description != null && description.length() > DESCRIPTION_MAX) {
             errors.add("description: at most " + DESCRIPTION_MAX + " characters");
         }
     }

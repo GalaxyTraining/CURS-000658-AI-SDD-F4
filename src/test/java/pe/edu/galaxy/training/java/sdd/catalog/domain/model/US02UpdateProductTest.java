@@ -51,6 +51,16 @@ class US02UpdateProductTest {
     }
 
     @Test
+    void US02_CA01_nameAndDescriptionWithSurroundingSpaces_areStoredStripped() {
+        Product product = ProductFixtures.completeDraft();
+
+        product.update("  Gaming mouse ", " RGB mouse  ", null, null, CLOCK_T1);
+
+        assertEquals("Gaming mouse", product.getName());
+        assertEquals("RGB mouse", product.getDescription());
+    }
+
+    @Test
     void US02_CA02_discontinuedProduct_isRejected() {
         Product product = ProductFixtures.discontinued();
 

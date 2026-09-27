@@ -36,6 +36,15 @@ class US04DiscontinueProductTest {
         assertEquals(T1, product.getUpdatedAt());
     }
 
+    @Test
+    void US04_CA01_reasonWithSurroundingSpaces_isStoredStripped() {
+        Product product = ProductFixtures.completeDraft();
+
+        product.discontinue("   " + VALID_REASON + "  ", CLOCK_T1);
+
+        assertEquals(VALID_REASON, product.getDiscontinuationReason());
+    }
+
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {"too short", "          ", "   short   "})

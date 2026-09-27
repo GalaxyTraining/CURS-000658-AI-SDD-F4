@@ -16,6 +16,7 @@ entre error de datos, recurso inexistente, conflicto de estado y regla de negoci
 | 409 | `DUPLICATE_SKU` | El SKU ya existe. | INV-02 |
 | 409 | `INVALID_STATE_TRANSITION` | Transición no permitida o producto descontinuado. | INV-06, INV-08 |
 | 422 | `PRODUCT_INCOMPLETE` | Activación sin precio o sin categoría. | INV-07 |
+| 500 | `INTERNAL_ERROR` | Error inesperado, no mapeado a ninguna fila anterior (ADR-0007). | — |
 
 Todas las respuestas de error usan el mismo esquema `ErrorResponse { code, message, details }`.
 
@@ -28,5 +29,7 @@ Todas las respuestas de error usan el mismo esquema `ErrorResponse { code, messa
 - Cada fila tiene una excepción propia en `domain.exception`: `ProductValidationException` (400),
   `ProductNotFoundException` (404), `DuplicateSkuException` (409), `InvalidStateTransitionException` (409)
   y `ProductIncompleteException` (422, con la lista de datos faltantes, US03 CA-02).
+- La fila `INTERNAL_ERROR` (agregada por ADR-0007) es la única sin excepción de dominio: no representa
+  una regla de negocio, sino cualquier excepción no prevista.
 - El `GlobalExceptionHandler` mapea cada excepción de dominio a exactamente una fila de esta tabla.
 - Las pruebas verifican tanto el HTTP como el `code`.

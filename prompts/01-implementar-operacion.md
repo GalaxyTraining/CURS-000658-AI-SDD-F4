@@ -13,7 +13,8 @@ Implementa la operación {{OPERATION_ID}} siguiendo CLAUDE.md.
 2. PLANIFICA: lista cada archivo a crear o modificar con su capa, paquete y la spec que lo origina.
    Espera mi aprobación antes de continuar.
 
-3. IMPLEMENTA en este orden: dominio -> puertos -> servicio -> adaptadores.
+3. IMPLEMENTA en este orden: dominio (solo si falta algo; si ya existe, reutilízalo y no lo dupliques)
+   -> puertos -> servicio -> adaptadores.
 
 4. PRUEBA: una prueba por criterio de aceptación (nombre USxx_CAyy_...), más los errores de ADR-0004
    que declare la operación.

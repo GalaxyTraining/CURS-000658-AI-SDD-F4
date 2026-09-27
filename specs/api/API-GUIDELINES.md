@@ -6,6 +6,7 @@
 - Crear: `POST` a la colección → `201` + header `Location`.
 - Consultar/listar: `GET` → `200`.
 - Actualizar datos: `PATCH` con semántica parcial (solo los campos enviados cambian; no se admite null).
+  Un `null` explícito en cualquier request, o un `PATCH` sin campos, responde 400 `VALIDATION_ERROR` (ADR-0009).
 - Transiciones de estado: `POST` a sub-recurso con verbo de negocio (`/activate`, `/discontinue`), ver ADR-0002.
 - `operationId` en camelCase igual al nombre del caso de uso (`activateProduct` ↔ `ActivateProductUseCase`).
 

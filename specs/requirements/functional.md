@@ -11,6 +11,8 @@
   - **Categoría**: opcional al registrar. Si se informa, debe pertenecer al catálogo cerrado de categorías.
 - Las longitudes de texto (nombre, descripción) se miden sin los espacios del inicio y el final:
   `"   "` cuenta como vacío.
+- Además, el texto tal como se envía tampoco puede superar el máximo (lo valida el contrato con `maxLength`):
+  un nombre de 100 caracteres seguido de un espacio se rechaza.
 - Todo producto nuevo inicia en estado **Borrador**.
 
 ### RF-02: Actualizar producto
@@ -27,10 +29,12 @@
 ### RF-04: Descontinuar producto
 - Un producto en **Borrador** o **Activo** puede descontinuarse.
 - Es obligatorio indicar el **motivo** (mínimo 10 y máximo 500 caracteres, medidos sin los espacios
-  del inicio y el final).
+  del inicio y el final). El texto tal como se envía tampoco puede superar los 500 caracteres.
 - **Descontinuado** es un estado final: el producto no vuelve a ningún otro estado ni se modifica.
 - Un producto nunca se elimina físicamente.
 
 ### RF-05: Consultar y listar productos
 - Consultar un producto por su identificador.
 - Listar productos con filtros opcionales por estado y categoría, con paginación.
+- El listado se ordena por fecha de creación ascendente y, a igual fecha, por identificador,
+  para que la paginación sea estable.

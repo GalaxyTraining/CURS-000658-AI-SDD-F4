@@ -85,6 +85,18 @@ solo el adaptador de persistencia. El dominio queda protegido de ambos cambios.
 | `SearchProductsUseCase` | in | `search(SearchProductsQuery): ProductPageResult` | US05 |
 | `ProductPersistencePort` | out | `save`, `findById`, `existsBySku`, `search` | US01–US05 |
 
+Firmas de `ProductPersistencePort` (solo usa tipos de `domain` y de `port.out`):
+
+| Operación | Firma | Notas |
+| :--- | :--- | :--- |
+| `save` | `save(Product): Product` | Inserta o actualiza. Una violación de unicidad del SKU se traduce a `DuplicateSkuException` (INV-02). |
+| `findById` | `findById(ProductId): Optional<Product>` | |
+| `existsBySku` | `existsBySku(Sku): boolean` | |
+| `search` | `search(ProductStatus status, ProductCategory category, int page, int size): ProductPage` | Un filtro `null` significa "sin filtro". `page` empieza en 0. Orden de RF-05. |
+
+`ProductPage(List<Product> items, long totalElements)` es un `record` de `application.port.out`:
+el puerto de salida no puede devolver `ProductPageResult`, que pertenece a `port.in`.
+
 Un servicio por caso de uso (`RegisterProductService implements RegisterProductUseCase`, etc.):
 cada clase se rastrea a una sola historia.
 
@@ -99,7 +111,7 @@ pe.edu.galaxy.training.java.sdd.catalog
 ├── application
 │   ├── port
 │   │   ├── in           # *UseCase + Commands, Queries, Results
-│   │   └── out          # ProductPersistencePort
+│   │   └── out          # ProductPersistencePort, ProductPage
 │   └── service          # *Service (implementan port.in)
 └── adapter
     ├── in
@@ -108,6 +120,10 @@ pe.edu.galaxy.training.java.sdd.catalog
     └── out
         └── persistence  # ProductPersistenceAdapter, ProductJpaEntity, ProductPersistenceMapper, SpringDataProductJpa
 ```
+
+**Hora actual:** los servicios reciben un `java.time.Clock` inyectado (nunca `Instant.now()`).
+El bean `Clock` (`Clock.systemUTC()`) se declara en `CatalogoProductosApplication`; las pruebas lo reemplazan
+por un reloj fijo. No se crea un paquete `config`.
 
 ## 6. Flujo de ejemplo: activar producto (US03)
 

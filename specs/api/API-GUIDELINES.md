@@ -22,6 +22,10 @@
 
 ## Errores
 - Siempre `ErrorResponse { code, message, details }` con los códigos y HTTP de ADR-0004.
+- El contrato es el HTTP y el `code`. `message` y `details` son informativos (en inglés, como el código)
+  y las pruebas no dependen de su texto, salvo los datos faltantes de `PRODUCT_INCOMPLETE` (US03 CA-02).
+- Las restricciones `minLength`/`maxLength` del contrato se aplican al texto tal como se envía; las reglas
+  del dominio (medidas sin espacios al inicio y al final) se aplican después.
 
 ## Seguridad
 - Fuera de alcance en este release (no figura en `vision.md`).

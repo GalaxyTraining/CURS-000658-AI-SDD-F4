@@ -82,7 +82,7 @@ classDiagram
 | ID | Regla | Dónde se garantiza | Fuente | Criterios |
 | :--- | :--- | :--- | :--- | :--- |
 | INV-01 | El SKU tiene formato `AAA-9999`. | `Sku` (al construirse) | RF-01 | US01 CA-03 |
-| INV-02 | El SKU es único en el catálogo. | `RegisterProductService` (application), consultando `ProductPersistencePort.existsBySku` | RF-01 | US01 CA-02 |
+| INV-02 | El SKU es único en el catálogo. | `RegisterProductService` (application), consultando `ProductPersistencePort.existsBySku`; respaldada por una restricción única en BD que el adaptador de persistencia traduce a `DuplicateSkuException` | RF-01 | US01 CA-02 |
 | INV-03 | El SKU nunca cambia. | `Product` (no expone método para cambiarlo) | RF-01, RF-02 | US02 CA-03 |
 | INV-04 | Nombre de 3 a 100 caracteres; descripción de máx. 500 (medidos y guardados sin espacios al inicio y al final). | `Product` | RF-01, RF-02 | US01 CA-01, US02 CA-04 |
 | INV-05 | Precio mayor a 0 y máximo 2 decimales, sin contar ceros finales (`10.500` válido, `10.505` no). | `Price` (al construirse) | RF-01 | US01 CA-04 |

@@ -83,6 +83,8 @@ paths:
                 code: DUPLICATE_SKU
                 message: Ya existe un producto con SKU ELE-0001
                 details: []
+        '500':
+          $ref: '#/components/responses/InternalError'
     get:
       tags: [Products]
       summary: Listar productos con filtros y paginación
@@ -119,6 +121,8 @@ paths:
                 $ref: '#/components/schemas/ProductPageResponse'
         '400':
           $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v1/products/{productId}:
     parameters:
@@ -137,6 +141,8 @@ paths:
                 $ref: '#/components/schemas/ProductResponse'
         '404':
           $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
     patch:
       tags: [Products]
       summary: Actualizar datos de un producto
@@ -169,6 +175,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '409':
           $ref: '#/components/responses/InvalidStateTransition'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v1/products/{productId}/activate:
     parameters:
@@ -203,6 +211,8 @@ paths:
                 details:
                   - price
                   - category
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /api/v1/products/{productId}/discontinue:
     parameters:
@@ -237,6 +247,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '409':
           $ref: '#/components/responses/InvalidStateTransition'
+        '500':
+          $ref: '#/components/responses/InternalError'
 
 components:
   parameters:
@@ -280,6 +292,16 @@ components:
             code: INVALID_STATE_TRANSITION
             message: No se puede activar un producto en estado DISCONTINUED
             details: []
+    InternalError:
+      description: Error inesperado del servidor (INTERNAL_ERROR, ADR-0007). No expone detalles internos.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: INTERNAL_ERROR
+            message: Unexpected error
+            details: []
 
   schemas:
     ProductStatus:
@@ -294,8 +316,8 @@ components:
 
     ErrorCode:
       type: string
-      description: Ver adr/0004.
-      enum: [VALIDATION_ERROR, PRODUCT_NOT_FOUND, DUPLICATE_SKU, INVALID_STATE_TRANSITION, PRODUCT_INCOMPLETE]
+      description: Ver adr/0004 y adr/0007.
+      enum: [VALIDATION_ERROR, PRODUCT_NOT_FOUND, DUPLICATE_SKU, INVALID_STATE_TRANSITION, PRODUCT_INCOMPLETE, INTERNAL_ERROR]
 
     RegisterProductRequest:
       type: object

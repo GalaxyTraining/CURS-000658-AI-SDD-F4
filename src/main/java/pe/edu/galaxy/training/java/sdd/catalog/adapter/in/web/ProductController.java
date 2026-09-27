@@ -8,6 +8,8 @@ import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.Pr
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.ProductStatus;
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.RegisterProductRequest;
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.UpdateProductRequest;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductCommand;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductQuery;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductPageResult;
@@ -29,15 +31,17 @@ public class ProductController implements ProductsApi {
     private final GetProductUseCase getProductUseCase;
     private final SearchProductsUseCase searchProductsUseCase;
     private final UpdateProductUseCase updateProductUseCase;
+    private final ActivateProductUseCase activateProductUseCase;
     private final ProductWebMapper mapper;
 
     public ProductController(RegisterProductUseCase registerProductUseCase, GetProductUseCase getProductUseCase,
                              SearchProductsUseCase searchProductsUseCase, UpdateProductUseCase updateProductUseCase,
-                             ProductWebMapper mapper) {
+                             ActivateProductUseCase activateProductUseCase, ProductWebMapper mapper) {
         this.registerProductUseCase = registerProductUseCase;
         this.getProductUseCase = getProductUseCase;
         this.searchProductsUseCase = searchProductsUseCase;
         this.updateProductUseCase = updateProductUseCase;
+        this.activateProductUseCase = activateProductUseCase;
         this.mapper = mapper;
     }
 
@@ -69,8 +73,8 @@ public class ProductController implements ProductsApi {
 
     @Override
     public ResponseEntity<ProductResponse> activateProduct(UUID productId) {
-        // TODO activateProduct
-        throw new UnsupportedOperationException("activateProduct is not implemented yet");
+        ProductResult result = activateProductUseCase.activate(new ActivateProductCommand(productId));
+        return ResponseEntity.ok(mapper.toResponse(result));
     }
 
     @Override

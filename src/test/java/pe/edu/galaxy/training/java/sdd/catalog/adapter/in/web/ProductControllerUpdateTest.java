@@ -6,6 +6,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
@@ -54,6 +55,9 @@ class ProductControllerUpdateTest {
 
     @MockitoBean
     private UpdateProductUseCase updateProductUseCase;
+
+    @MockitoBean
+    private ActivateProductUseCase activateProductUseCase;
 
     private MvcTestResult patch(String json) {
         return mvc.patch().uri(PATH).contentType(MediaType.APPLICATION_JSON).content(json).exchange();

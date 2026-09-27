@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsUseCase;
@@ -51,6 +52,9 @@ class GlobalExceptionHandlerTest {
 
     @MockitoBean
     private UpdateProductUseCase updateProductUseCase;
+
+    @MockitoBean
+    private ActivateProductUseCase activateProductUseCase;
 
     static Stream<Arguments> domainExceptions() {
         return Stream.of(

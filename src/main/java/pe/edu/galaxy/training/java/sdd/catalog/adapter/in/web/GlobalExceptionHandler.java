@@ -8,6 +8,8 @@ import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.InvalidStateTran
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductIncompleteException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductNotFoundException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductValidationException;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Path;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +81,19 @@ public class GlobalExceptionHandler {
         return error(HttpStatus.BAD_REQUEST, ErrorCode.VALIDATION_ERROR, "Invalid request", details);
     }
 
+    /**
+     * Contract constraints on query parameters (e.g. page, size) checked by method validation,
+     * since the generated ProductsApi is annotated with @Validated.
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException e) {
+        List<String> details = e.getConstraintViolations().stream()
+                .map(violation -> lastNode(violation.getPropertyPath()) + ": " + violation.getMessage())
+                .sorted()
+                .toList();
+        return error(HttpStatus.BAD_REQUEST, ErrorCode.VALIDATION_ERROR, "Invalid request", details);
+    }
+
     /** A path or query value of the wrong type, e.g. a malformed UUID or an unknown status. */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException e) {
@@ -97,6 +112,15 @@ public class GlobalExceptionHandler {
         }
         log.error("Unexpected error", e);
         return error(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.INTERNAL_ERROR, "Unexpected error", List.of());
+    }
+
+    /** "searchProducts.page" -> "page". */
+    private static String lastNode(Path path) {
+        String name = null;
+        for (Path.Node node : path) {
+            name = node.getName();
+        }
+        return name;
     }
 
     private static ResponseEntity<ErrorResponse> error(HttpStatus status, ErrorCode code, DomainException e) {

@@ -1,0 +1,1870 @@
+{
+  "info": {
+    "_postman_id": "2736c9b8-b1b4-4c79-b7cc-c4e3f79445be",
+    "name": "catalogo-productos",
+    "description": "Contrato REST del Catálogo de Productos (Spec-First). Estados: domain/product-lifecycle.md. Categorías: domain/catalogs.md. Errores: adr/0004. Convenciones: api/API-GUIDELINES.md.\nExtensiones propias: - `x-spec-refs`: requerimientos e historias que originan la operación. - `x-transition`: transición de estado que produce la operación.\n",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "17675229"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "products",
+              "item": [
+                {
+                  "name": "{productId}",
+                  "item": [
+                    {
+                      "name": "activate",
+                      "item": []
+                    },
+                    {
+                      "name": "discontinue",
+                      "item": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Flujo ciclo de vida",
+      "item": [
+        {
+          "name": "Registrar un producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"US01 CA-01: registra en DRAFT con 201\", () => {\r\n    pm.response.to.have.status(201);\r\n    pm.expect(pm.response.headers.get(\"Location\")).to.include(\"/api/v1/products/\");\r\n    pm.expect(pm.response.json().status).to.eql(\"DRAFT\");\r\n});\r\n\r\npm.collectionVariables.set(\"productId\", pm.response.json().id);"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const n = Math.floor(Math.random() * 10000).toString().padStart(4, \"0\");\r\npm.collectionVariables.set(\"sku\", \"ELE-\" + n);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"{{sku}}\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products"
+              ]
+            },
+            "description": "Crea el producto en estado DRAFT (RF-01)."
+          },
+          "response": [
+            {
+              "name": "Producto registrado en DRAFT",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sku\": \"ELE-0001\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "URL del producto creado",
+                    "type": "text/plain"
+                  },
+                  "key": "Location",
+                  "value": "string"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"7c9e6679-7425-40de-944b-e07fc1f90ae7\",\n  \"sku\": \"ELE-0001\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\",\n  \"status\": \"DRAFT\",\n  \"discontinuationReason\": null,\n  \"createdAt\": \"2026-09-26T15:00:00Z\",\n  \"updatedAt\": \"2026-09-26T15:00:00Z\"\n}"
+            },
+            {
+              "name": "Datos inválidos (VALIDATION_ERROR)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sku\": \"ELE-0001\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"VALIDATION_ERROR\",\n  \"message\": \"La solicitud contiene datos inválidos\",\n  \"details\": [\n    \"sku: debe cumplir el formato AAA-9999\"\n  ]\n}"
+            },
+            {
+              "name": "El SKU ya existe (DUPLICATE_SKU, INV-02)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sku\": \"ELE-0001\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"DUPLICATE_SKU\",\n  \"message\": \"Ya existe un producto con SKU ELE-0001\",\n  \"details\": []\n}"
+            },
+            {
+              "name": "Error inesperado del servidor (INTERNAL_ERROR, ADR-0007). No expone detalles internos.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sku\": \"ELE-0001\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"Unexpected error\",\n  \"details\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Registrar SKU duplicado (US01 CA-02)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"US01 CA-02: SKU duplicado devuelve 409 DUPLICATE_SKU\", () => {\r\n    pm.response.to.have.status(409);\r\n    pm.expect(pm.response.json().code).to.eql(\"DUPLICATE_SKU\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"{{sku}}\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products"
+              ]
+            },
+            "description": "Crea el producto en estado DRAFT (RF-01)."
+          },
+          "response": [
+            {
+              "name": "Producto registrado en DRAFT",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sku\": \"ELE-0001\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "URL del producto creado",
+                    "type": "text/plain"
+                  },
+                  "key": "Location",
+                  "value": "string"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"7c9e6679-7425-40de-944b-e07fc1f90ae7\",\n  \"sku\": \"ELE-0001\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\",\n  \"status\": \"DRAFT\",\n  \"discontinuationReason\": null,\n  \"createdAt\": \"2026-09-26T15:00:00Z\",\n  \"updatedAt\": \"2026-09-26T15:00:00Z\"\n}"
+            },
+            {
+              "name": "Datos inválidos (VALIDATION_ERROR)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sku\": \"ELE-0001\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"VALIDATION_ERROR\",\n  \"message\": \"La solicitud contiene datos inválidos\",\n  \"details\": [\n    \"sku: debe cumplir el formato AAA-9999\"\n  ]\n}"
+            },
+            {
+              "name": "El SKU ya existe (DUPLICATE_SKU, INV-02)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sku\": \"ELE-0001\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"DUPLICATE_SKU\",\n  \"message\": \"Ya existe un producto con SKU ELE-0001\",\n  \"details\": []\n}"
+            },
+            {
+              "name": "Error inesperado del servidor (INTERNAL_ERROR, ADR-0007). No expone detalles internos.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sku\": \"ELE-0001\",\n  \"name\": \"Mouse inalámbrico\",\n  \"description\": \"Mouse óptico de 3 botones\",\n  \"price\": 49.9,\n  \"category\": \"ELECTRONICS\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"Unexpected error\",\n  \"details\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Consultar un producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"US05 CA-01: consulta devuelve el producto\", () => {\r\n    pm.response.to.have.status(200);\r\n    pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get(\"productId\"));\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products/:productId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ":productId"
+              ],
+              "variable": [
+                {
+                  "key": "productId",
+                  "value": "{{productId}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Datos del producto",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"662582b5-d40f-65dc-6c16-de40dafa276f\",\n  \"sku\": \"WGP-1136\",\n  \"name\": \"string\",\n  \"status\": \"DRAFT\",\n  \"createdAt\": \"2007-12-04T16:04:36.636Z\",\n  \"updatedAt\": \"1989-02-03T17:38:02.508Z\",\n  \"description\": \"string\",\n  \"price\": 2370.8996291711037,\n  \"category\": \"OFFICE\",\n  \"discontinuationReason\": \"string\"\n}"
+            },
+            {
+              "name": "El producto no existe (PRODUCT_NOT_FOUND)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"PRODUCT_NOT_FOUND\",\n  \"message\": \"No existe el producto solicitado\",\n  \"details\": []\n}"
+            },
+            {
+              "name": "Error inesperado del servidor (INTERNAL_ERROR, ADR-0007). No expone detalles internos.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"Unexpected error\",\n  \"details\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Actualizar datos de un producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"US02 CA-01: actualiza el precio y no cambia el estado\", () => {\r\n    pm.response.to.have.status(200);\r\n    pm.expect(pm.response.json().price).to.eql(70.5);\r\n    pm.expect(pm.response.json().status).to.eql(\"DRAFT\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 70.5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products/:productId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ":productId"
+              ],
+              "variable": [
+                {
+                  "key": "productId",
+                  "value": "{{productId}}"
+                }
+              ]
+            },
+            "description": "Solo se modifican los campos enviados; los omitidos no cambian. No se admite null: precio y categoría pueden reemplazarse pero no quitarse (INV-11). El SKU y el estado no forman parte del request y nunca se modifican (INV-03, ADR-0002).\n"
+          },
+          "response": [
+            {
+              "name": "Producto actualizado (el estado no cambia)",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"price\": 59.9\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"662582b5-d40f-65dc-6c16-de40dafa276f\",\n  \"sku\": \"WGP-1136\",\n  \"name\": \"string\",\n  \"status\": \"DRAFT\",\n  \"createdAt\": \"2007-12-04T16:04:36.636Z\",\n  \"updatedAt\": \"1989-02-03T17:38:02.508Z\",\n  \"description\": \"string\",\n  \"price\": 2370.8996291711037,\n  \"category\": \"OFFICE\",\n  \"discontinuationReason\": \"string\"\n}"
+            },
+            {
+              "name": "Datos inválidos (VALIDATION_ERROR)",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"price\": 59.9\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"VALIDATION_ERROR\",\n  \"message\": \"La solicitud contiene datos inválidos\",\n  \"details\": [\n    \"sku: debe cumplir el formato AAA-9999\"\n  ]\n}"
+            },
+            {
+              "name": "El producto no existe (PRODUCT_NOT_FOUND)",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"price\": 59.9\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"PRODUCT_NOT_FOUND\",\n  \"message\": \"No existe el producto solicitado\",\n  \"details\": []\n}"
+            },
+            {
+              "name": "Transición no permitida o producto descontinuado (INVALID_STATE_TRANSITION)",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"price\": 59.9\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"INVALID_STATE_TRANSITION\",\n  \"message\": \"No se puede activar un producto en estado DISCONTINUED\",\n  \"details\": []\n}"
+            },
+            {
+              "name": "Error inesperado del servidor (INTERNAL_ERROR, ADR-0007). No expone detalles internos.",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"price\": 59.9\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"Unexpected error\",\n  \"details\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Activar un producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"US03 CA-01: activa un producto completo\", () => {\r\n    pm.response.to.have.status(200);\r\n    pm.expect(pm.response.json().status).to.eql(\"ACTIVE\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products/:productId/activate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ":productId",
+                "activate"
+              ],
+              "variable": [
+                {
+                  "key": "productId",
+                  "value": "{{productId}}"
+                }
+              ]
+            },
+            "description": "Solo desde DRAFT y con precio y categoría informados (RF-03)."
+          },
+          "response": [
+            {
+              "name": "Producto activado",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId/activate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId",
+                    "activate"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"662582b5-d40f-65dc-6c16-de40dafa276f\",\n  \"sku\": \"WGP-1136\",\n  \"name\": \"string\",\n  \"status\": \"DRAFT\",\n  \"createdAt\": \"2007-12-04T16:04:36.636Z\",\n  \"updatedAt\": \"1989-02-03T17:38:02.508Z\",\n  \"description\": \"string\",\n  \"price\": 2370.8996291711037,\n  \"category\": \"OFFICE\",\n  \"discontinuationReason\": \"string\"\n}"
+            },
+            {
+              "name": "El producto no existe (PRODUCT_NOT_FOUND)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId/activate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId",
+                    "activate"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"PRODUCT_NOT_FOUND\",\n  \"message\": \"No existe el producto solicitado\",\n  \"details\": []\n}"
+            },
+            {
+              "name": "Transición no permitida o producto descontinuado (INVALID_STATE_TRANSITION)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId/activate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId",
+                    "activate"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"INVALID_STATE_TRANSITION\",\n  \"message\": \"No se puede activar un producto en estado DISCONTINUED\",\n  \"details\": []\n}"
+            },
+            {
+              "name": "Falta precio o categoría (PRODUCT_INCOMPLETE, INV-07)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId/activate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId",
+                    "activate"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"PRODUCT_INCOMPLETE\",\n  \"message\": \"El producto no puede activarse porque le faltan datos\",\n  \"details\": [\n    \"price\",\n    \"category\"\n  ]\n}"
+            },
+            {
+              "name": "Error inesperado del servidor (INTERNAL_ERROR, ADR-0007). No expone detalles internos.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId/activate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId",
+                    "activate"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"Unexpected error\",\n  \"details\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Descontinuar un producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"US04 CA-01: descontinúa con motivo\", () => {\r\n    pm.response.to.have.status(200);\r\n    pm.expect(pm.response.json().status).to.eql(\"DISCONTINUED\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"El proveedor dejó de fabricarlo\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products/:productId/discontinue",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ":productId",
+                "discontinue"
+              ],
+              "variable": [
+                {
+                  "key": "productId",
+                  "value": "{{productId}}"
+                }
+              ]
+            },
+            "description": "Desde DRAFT o ACTIVE, con motivo obligatorio. Estado final (RF-04)."
+          },
+          "response": [
+            {
+              "name": "Producto descontinuado",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"El proveedor dejó de fabricarlo\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId/discontinue",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId",
+                    "discontinue"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"662582b5-d40f-65dc-6c16-de40dafa276f\",\n  \"sku\": \"WGP-1136\",\n  \"name\": \"string\",\n  \"status\": \"DRAFT\",\n  \"createdAt\": \"2007-12-04T16:04:36.636Z\",\n  \"updatedAt\": \"1989-02-03T17:38:02.508Z\",\n  \"description\": \"string\",\n  \"price\": 2370.8996291711037,\n  \"category\": \"OFFICE\",\n  \"discontinuationReason\": \"string\"\n}"
+            },
+            {
+              "name": "Datos inválidos (VALIDATION_ERROR)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"El proveedor dejó de fabricarlo\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId/discontinue",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId",
+                    "discontinue"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"VALIDATION_ERROR\",\n  \"message\": \"La solicitud contiene datos inválidos\",\n  \"details\": [\n    \"sku: debe cumplir el formato AAA-9999\"\n  ]\n}"
+            },
+            {
+              "name": "El producto no existe (PRODUCT_NOT_FOUND)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"El proveedor dejó de fabricarlo\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId/discontinue",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId",
+                    "discontinue"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"PRODUCT_NOT_FOUND\",\n  \"message\": \"No existe el producto solicitado\",\n  \"details\": []\n}"
+            },
+            {
+              "name": "Transición no permitida o producto descontinuado (INVALID_STATE_TRANSITION)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"El proveedor dejó de fabricarlo\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId/discontinue",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId",
+                    "discontinue"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"INVALID_STATE_TRANSITION\",\n  \"message\": \"No se puede activar un producto en estado DISCONTINUED\",\n  \"details\": []\n}"
+            },
+            {
+              "name": "Error inesperado del servidor (INTERNAL_ERROR, ADR-0007). No expone detalles internos.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"El proveedor dejó de fabricarlo\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:productId/discontinue",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":productId",
+                    "discontinue"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "6a82bfec-fb43-55e3-7210-e4ab6da93c31"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"Unexpected error\",\n  \"details\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Listar productos con filtros y paginación",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"US05 CA-03: el filtro devuelve solo productos del estado pedido\", () => {\r\n    pm.response.to.have.status(200);\r\n    const items = pm.response.json().items;\r\n    pm.expect(items.length, \"debe haber al menos un producto\").to.be.above(0);\r\n    items.forEach(p => {\r\n        pm.expect(p.status).to.eql(\"DISCONTINUED\");\r\n        pm.expect(p.category).to.eql(\"ELECTRONICS\");\r\n    });\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products?status=DISCONTINUED&category=ELECTRONICS&page=0&size=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "DISCONTINUED"
+                },
+                {
+                  "key": "category",
+                  "value": "ELECTRONICS"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Página de productos que cumplen los filtros",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products?status=DRAFT&category=ELECTRONICS&page=0&size=20",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "category",
+                      "value": "ELECTRONICS"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"items\": [\n    {\n      \"id\": \"f179af88-3495-fbf0-f075-8c47757e8702\",\n      \"sku\": \"NRJ-5569\",\n      \"name\": \"string\",\n      \"status\": \"DISCONTINUED\",\n      \"createdAt\": \"2006-02-26T12:41:15.637Z\",\n      \"updatedAt\": \"2006-08-18T08:52:57.756Z\",\n      \"description\": \"string\",\n      \"price\": 8038.484301387978,\n      \"category\": \"FOOD\",\n      \"discontinuationReason\": \"string\"\n    },\n    {\n      \"id\": \"7e608fa3-fae5-6810-9991-148b4bc0a4b3\",\n      \"sku\": \"OIF-9241\",\n      \"name\": \"string\",\n      \"status\": \"DRAFT\",\n      \"createdAt\": \"1949-06-30T21:53:31.176Z\",\n      \"updatedAt\": \"1953-05-26T09:02:40.614Z\",\n      \"description\": \"string\",\n      \"price\": 3566.80991951686,\n      \"category\": \"CLOTHING\",\n      \"discontinuationReason\": \"string\"\n    }\n  ],\n  \"page\": 729,\n  \"size\": 9146,\n  \"totalElements\": 7952,\n  \"totalPages\": 4088\n}"
+            },
+            {
+              "name": "Datos inválidos (VALIDATION_ERROR)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products?status=DRAFT&category=ELECTRONICS&page=0&size=20",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "category",
+                      "value": "ELECTRONICS"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"VALIDATION_ERROR\",\n  \"message\": \"La solicitud contiene datos inválidos\",\n  \"details\": [\n    \"sku: debe cumplir el formato AAA-9999\"\n  ]\n}"
+            },
+            {
+              "name": "Error inesperado del servidor (INTERNAL_ERROR, ADR-0007). No expone detalles internos.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products?status=DRAFT&category=ELECTRONICS&page=0&size=20",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "category",
+                      "value": "ELECTRONICS"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"Unexpected error\",\n  \"details\": []\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "sku",
+      "value": ""
+    },
+    {
+      "key": "productId",
+      "value": ""
+    }
+  ]
+}

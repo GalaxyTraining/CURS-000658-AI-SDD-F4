@@ -42,7 +42,7 @@ flowchart TB
 | `application.port.in` | Interfaces de casos de uso + Commands, Queries y Results. | `domain` | `adapter` |
 | `application.port.out` | Interfaces de lo que la aplicación necesita del exterior. | `domain` | `adapter` |
 | `application.service` | Implementa `port.in`; orquesta dominio y `port.out`. | `domain`, `port.in`, `port.out` | `adapter` |
-| `adapter.in.web` | HTTP: DTO web, mapeo a Command, traducción de errores. | `application.port.in` | `application.service`, `domain` (solo sus excepciones para mapear errores), `adapter.out` |
+| `adapter.in.web` | HTTP: DTO web, mapeo a Command, traducción de errores. | `application.port.in`, `domain` (solo sus excepciones para mapear errores, y `ProductStatus`/`ProductCategory` en `ProductWebMapper`, §3) | `application.service`, el resto de `domain`, `adapter.out` |
 | `adapter.out.persistence` | Implementa `port.out` con JPA. | `application.port.out`, `domain` | `adapter.in` |
 | `config` | Ensamblaje: beans de configuración (composition root). | todas las capas | — (nadie depende de `config`) |
 
@@ -113,11 +113,17 @@ pe.edu.galaxy.training.java.sdd.catalog
 │   ├── model            # Product, ProductId, Sku, Price, ProductStatus, ProductCategory
 │   └── exception        # ProductValidationException, ProductNotFoundException, DuplicateSkuException,
 │                        # InvalidStateTransitionException, ProductIncompleteException (una por fila de ADR-0004)
-├── application
-│   ├── port
-│   │   ├── in           # *UseCase + Commands, Queries, Results
-│   │   └── out          # ProductPersistencePort, ProductPage
-│   └── service          # *Service (implementan port.in)
+application
+├── port
+│   ├── in
+│   │   ├── usecase     # RegisterProductUseCase, UpdateProductUseCase, ActivateProductUseCase,
+│   │   │               # DiscontinueProductUseCase, GetProductUseCase, SearchProductsUseCase
+│   │   ├── command     # RegisterProductCommand, UpdateProductCommand,
+│   │   │               # ActivateProductCommand, DiscontinueProductCommand
+│   │   ├── query       # GetProductQuery, SearchProductsQuery
+│   │   └── result      # ProductResult, ProductPageResult
+│   └── out             # ProductPersistencePort, ProductPage
+└── service             # solo *Service (implementaciones de port.in.usecase)
 └── adapter
     ├── in
     │   └── web          # ProductController, ProductWebMapper, GlobalExceptionHandler

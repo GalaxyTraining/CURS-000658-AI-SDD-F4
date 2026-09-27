@@ -8,3 +8,29 @@
 | discontinueProduct | DiscontinueProductUseCase | DiscontinueProductService | RF-04 / US04 | INV-06, INV-09, INV-10 | US04_CA01 a US04_CA04 |
 | getProduct | GetProductUseCase | GetProductService | RF-05 / US05 | INV-10 | US05_CA01, US05_CA02 |
 | searchProducts | SearchProductsUseCase | SearchProductsService | RF-05 / US05 | — | US05_CA03, US05_CA04 |
+
+## Clases de prueba por operación
+
+Dónde están las pruebas `USxx_CAyy_...` de cada operación, por capa (`src/test/java/.../catalog/`).
+Las pruebas de dominio son JUnit puro; las de aplicación usan `InMemoryProductPersistence` sin Spring.
+
+| operationId | Dominio (`domain.model`) | Aplicación (`application.service`) | Web (`adapter.in.web`) | Persistencia (`adapter.out.persistence`) |
+| :--- | :--- | :--- | :--- | :--- |
+| registerProduct | US01RegisterProductTest | RegisterProductServiceTest | ProductControllerRegisterTest | ProductPersistenceAdapterTest (US01_CA02) |
+| updateProduct | US02UpdateProductTest | UpdateProductServiceTest | ProductControllerUpdateTest | — |
+| activateProduct | US03ActivateProductTest | ActivateProductServiceTest | ProductControllerActivateTest | — |
+| discontinueProduct | US04DiscontinueProductTest | DiscontinueProductServiceTest | ProductControllerDiscontinueTest | — |
+| getProduct | — | GetProductServiceTest | ProductControllerGetTest | — |
+| searchProducts | — | SearchProductsServiceTest | ProductControllerSearchTest | ProductPersistenceAdapterTest (US05_CA03, US05_CA04) |
+
+US04 CA-04 (un producto descontinuado se sigue consultando, INV-10) se prueba en
+`DiscontinueProductServiceTest` usando `GetProductService`.
+
+## Pruebas de reglas transversales
+
+| Regla | Clase de prueba |
+| :--- | :--- |
+| ADR-0004 y ADR-0007: cada fila HTTP + `code` e `INTERNAL_ERROR` sin detalles internos | GlobalExceptionHandlerTest |
+| ADR-0009: `null` explícito en un request | ProductControllerUpdateTest (US02_CA05), ProductControllerRegisterTest, ProductControllerDiscontinueTest |
+| ADR-0009: `PATCH` sin campos | ProductControllerUpdateTest |
+| Arranque del contexto completo | CatalogoProductosApplicationTests |

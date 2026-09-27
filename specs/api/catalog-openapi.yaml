@@ -309,9 +309,15 @@ components:
           type: string
           minLength: 3
           maxLength: 100
+          description: >
+            3 a 100 caracteres sin espacios al inicio y al final (INV-04); el texto enviado
+            tampoco puede superar 100. Se guarda recortado.
         description:
           type: string
           maxLength: 500
+          description: >
+            Máximo 500 caracteres sin espacios al inicio y al final (INV-04); el texto enviado
+            tampoco puede superar 500. Se guarda recortado.
         price:
           type: number
           minimum: 0
@@ -349,7 +355,9 @@ components:
           type: string
           minLength: 10
           maxLength: 500
-          description: Motivo obligatorio (INV-09).
+          description: >
+            Motivo obligatorio de 10 a 500 caracteres sin espacios al inicio y al final (INV-09);
+            el texto enviado tampoco puede superar 500. Se guarda recortado.
 
     ProductResponse:
       type: object

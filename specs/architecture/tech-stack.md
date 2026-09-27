@@ -10,9 +10,9 @@ Agregar o cambiar una tecnología requiere un ADR.
 | Base de datos | H2 en memoria | Persistencia en `adapter.out.persistence` | ADR-0005 |
 | Build | Maven con wrapper (`./mvnw`) | Compilación, generación y pruebas | — |
 | Contrato | OpenAPI 3.0.3 | `specs/api/catalog-openapi.yaml` | — |
-| Generación de API | openapi-generator (`spring`, `interfaceOnly`) | `ProductsApi` y DTO web en `adapter.in.web.generated` | — |
 | Pruebas | JUnit 5 + Spring Boot Test | Dominio sin Spring; adaptadores con Spring | — |
 | Validación de specs | Python 3 + PyYAML (`tools/spec_lint.py`) | Consistencia contrato ↔ dominio | — |
+| Generación de API | openapi-generator ≥ 7.20 (`spring`, `interfaceOnly`, `useSpringBoot4`, `useJackson3`) | `ProductsApi` y DTO web en `adapter.in.web.generated` | ADR-0006 |
 
 ## Restricciones
 - El paquete `domain` solo usa el JDK (sin Spring, JPA ni librerías externas).

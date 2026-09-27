@@ -1,11 +1,13 @@
 package pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web;
 
+import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.DiscontinueProductRequest;
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.ProductCategory;
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.ProductPageResponse;
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.ProductResponse;
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.ProductStatus;
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.RegisterProductRequest;
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.UpdateProductRequest;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.DiscontinueProductCommand;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductPageResult;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductCommand;
@@ -44,6 +46,10 @@ public class ProductWebMapper {
                 request.getDescription(),
                 request.getPrice(),
                 category == null ? null : category.getValue());
+    }
+
+    public DiscontinueProductCommand toCommand(UUID productId, DiscontinueProductRequest request) {
+        return new DiscontinueProductCommand(productId, request.getReason());
     }
 
     public SearchProductsQuery toQuery(ProductStatus status, ProductCategory category, int page, int size) {

@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.DiscontinueProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductPageResult;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
@@ -55,6 +56,9 @@ class ProductControllerSearchTest {
 
     @MockitoBean
     private ActivateProductUseCase activateProductUseCase;
+
+    @MockitoBean
+    private DiscontinueProductUseCase discontinueProductUseCase;
 
     private MvcTestResult get(String queryString) {
         return mvc.get().uri(PATH + queryString).exchange();

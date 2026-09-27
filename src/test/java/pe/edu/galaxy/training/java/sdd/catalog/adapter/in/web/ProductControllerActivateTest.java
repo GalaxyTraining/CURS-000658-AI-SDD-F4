@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductCommand;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.DiscontinueProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
@@ -54,6 +55,9 @@ class ProductControllerActivateTest {
 
     @MockitoBean
     private ActivateProductUseCase activateProductUseCase;
+
+    @MockitoBean
+    private DiscontinueProductUseCase discontinueProductUseCase;
 
     private MvcTestResult activate(String productId) {
         return mvc.post().uri("/api/v1/products/" + productId + "/activate").exchange();

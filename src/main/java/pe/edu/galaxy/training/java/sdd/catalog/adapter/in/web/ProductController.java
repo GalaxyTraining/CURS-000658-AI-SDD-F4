@@ -10,6 +10,7 @@ import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.Re
 import pe.edu.galaxy.training.java.sdd.catalog.adapter.in.web.generated.model.UpdateProductRequest;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductCommand;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.DiscontinueProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductQuery;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductPageResult;
@@ -32,16 +33,19 @@ public class ProductController implements ProductsApi {
     private final SearchProductsUseCase searchProductsUseCase;
     private final UpdateProductUseCase updateProductUseCase;
     private final ActivateProductUseCase activateProductUseCase;
+    private final DiscontinueProductUseCase discontinueProductUseCase;
     private final ProductWebMapper mapper;
 
     public ProductController(RegisterProductUseCase registerProductUseCase, GetProductUseCase getProductUseCase,
                              SearchProductsUseCase searchProductsUseCase, UpdateProductUseCase updateProductUseCase,
-                             ActivateProductUseCase activateProductUseCase, ProductWebMapper mapper) {
+                             ActivateProductUseCase activateProductUseCase,
+                             DiscontinueProductUseCase discontinueProductUseCase, ProductWebMapper mapper) {
         this.registerProductUseCase = registerProductUseCase;
         this.getProductUseCase = getProductUseCase;
         this.searchProductsUseCase = searchProductsUseCase;
         this.updateProductUseCase = updateProductUseCase;
         this.activateProductUseCase = activateProductUseCase;
+        this.discontinueProductUseCase = discontinueProductUseCase;
         this.mapper = mapper;
     }
 
@@ -80,7 +84,8 @@ public class ProductController implements ProductsApi {
     @Override
     public ResponseEntity<ProductResponse> discontinueProduct(UUID productId,
                                                               DiscontinueProductRequest discontinueProductRequest) {
-        // TODO discontinueProduct
-        throw new UnsupportedOperationException("discontinueProduct is not implemented yet");
+        ProductResult result = discontinueProductUseCase.discontinue(
+                mapper.toCommand(productId, discontinueProductRequest));
+        return ResponseEntity.ok(mapper.toResponse(result));
     }
 }

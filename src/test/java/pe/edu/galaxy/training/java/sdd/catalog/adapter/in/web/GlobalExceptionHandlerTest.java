@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ActivateProductUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.DiscontinueProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsUseCase;
@@ -55,6 +56,9 @@ class GlobalExceptionHandlerTest {
 
     @MockitoBean
     private ActivateProductUseCase activateProductUseCase;
+
+    @MockitoBean
+    private DiscontinueProductUseCase discontinueProductUseCase;
 
     static Stream<Arguments> domainExceptions() {
         return Stream.of(

@@ -34,7 +34,8 @@ de verdad: nada se implementa si no está especificado primero.
    Las reglas de dominio se prueban con JUnit puro, sin Spring.
 8. **Idioma (`specs/conventions.md`):** código en inglés; documentación en castellano.
 9. **Antes de cada commit:** `python tools/spec_lint.py` debe dar OK y `mvn test` debe pasar.
-10. **Commits:** prefijos `spec:`, `design:`, `contract:`, `tooling:`, `feat:`, `test:`, `fix:`.
+10. **Commits:** prefijos `spec:`, `design:`, `contract:`, `tooling:`, `feat:`, `test:`, `fix:`, `refactor:`.
+
 
 ## Stack y comandos
 Stack: `specs/architecture/tech-stack.md`. No agregues dependencias sin un ADR.

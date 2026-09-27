@@ -7,7 +7,10 @@
   - **Nombre**: obligatorio, entre 3 y 100 caracteres.
   - **Descripción**: opcional, máximo 500 caracteres.
   - **Precio**: opcional al registrar. Si se ingresa, debe ser mayor a 0, con máximo 2 decimales, en moneda única (PEN).
+    Los ceros finales no cuentan como decimales: `10.500` es válido y `10.505` no.
   - **Categoría**: opcional al registrar. Si se informa, debe pertenecer al catálogo cerrado de categorías.
+- Las longitudes de texto (nombre, descripción) se miden sin los espacios del inicio y el final:
+  `"   "` cuenta como vacío.
 - Todo producto nuevo inicia en estado **Borrador**.
 
 ### RF-02: Actualizar producto
@@ -23,7 +26,8 @@
 
 ### RF-04: Descontinuar producto
 - Un producto en **Borrador** o **Activo** puede descontinuarse.
-- Es obligatorio indicar el **motivo** (mínimo 10 caracteres).
+- Es obligatorio indicar el **motivo** (mínimo 10 y máximo 500 caracteres, medidos sin los espacios
+  del inicio y el final).
 - **Descontinuado** es un estado final: el producto no vuelve a ningún otro estado ni se modifica.
 - Un producto nunca se elimina físicamente.
 

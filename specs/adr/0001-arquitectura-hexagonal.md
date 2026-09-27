@@ -5,7 +5,7 @@
 - **Specs relacionadas:** `architecture/architecture.md`, `architecture/domain-model.md`
 
 ## Contexto
-Las reglas del producto (INV-01 a INV-10) deben poder probarse sin levantar servidor ni base de datos,
+Las reglas del producto (INV-01 a INV-11) deben poder probarse sin levantar servidor ni base de datos,
 y el contrato REST debe poder cambiar sin afectar al dominio.
 
 ## Decisión

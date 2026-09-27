@@ -8,11 +8,12 @@ No introduce reglas nuevas: si una regla no tiene fuente, primero se agrega a la
 | Término de negocio | Código | Definición |
 | :--- | :--- | :--- |
 | Producto | `Product` | Artículo del catálogo. Agregado principal. |
+| Identificador | `ProductId` | Objeto de valor que envuelve un `UUID` generado por el sistema (ADR-0003). |
 | SKU | `Sku` | Código de negocio del producto, formato `AAA-9999`, único e inmutable. |
 | Precio | `Price` | Monto mayor a 0, máximo 2 decimales, en PEN. |
 | Categoría | `ProductCategory` | Valor del catálogo cerrado (`domain/catalogs.md`). |
 | Estado | `ProductStatus` | `DRAFT`, `ACTIVE`, `DISCONTINUED` (`domain/product-lifecycle.md`). |
-| Motivo de descontinuación | `discontinuationReason` | Texto obligatorio (mín. 10) al descontinuar. |
+| Motivo de descontinuación | `discontinuationReason` | Texto obligatorio (10 a 500 caracteres) al descontinuar. |
 
 ## 2. Diagrama de clases
 
@@ -36,6 +37,11 @@ classDiagram
         +update(name, description, price, category)
         +activate()
         +discontinue(reason)
+    }
+
+    class ProductId {
+        <<Value Object>>
+        UUID value
     }
 
     class Sku {
@@ -64,6 +70,7 @@ classDiagram
         OFFICE
     }
 
+    Product *-- ProductId
     Product *-- Sku
     Product *-- "0..1" Price
     Product --> ProductStatus
@@ -77,12 +84,12 @@ classDiagram
 | INV-01 | El SKU tiene formato `AAA-9999`. | `Sku` (al construirse) | RF-01 | US01 CA-03 |
 | INV-02 | El SKU es único en el catálogo. | `RegisterProductService` (application), consultando `ProductPersistencePort.existsBySku` | RF-01 | US01 CA-02 |
 | INV-03 | El SKU nunca cambia. | `Product` (no expone método para cambiarlo) | RF-01, RF-02 | US02 CA-03 |
-| INV-04 | Nombre de 3 a 100 caracteres; descripción de máx. 500. | `Product` | RF-01, RF-02 | US01 CA-01, US02 CA-04 |
-| INV-05 | Precio mayor a 0 y máximo 2 decimales. | `Price` (al construirse) | RF-01 | US01 CA-04 |
+| INV-04 | Nombre de 3 a 100 caracteres; descripción de máx. 500 (medidos sin espacios al inicio y al final). | `Product` | RF-01, RF-02 | US01 CA-01, US02 CA-04 |
+| INV-05 | Precio mayor a 0 y máximo 2 decimales, sin contar ceros finales (`10.500` válido, `10.505` no). | `Price` (al construirse) | RF-01 | US01 CA-04 |
 | INV-06 | Solo se permiten las transiciones de `product-lifecycle.md`. | `Product.activate()` / `discontinue()` | lifecycle §2 | US03 CA-03, US04 CA-03 |
 | INV-07 | Para activar se requiere precio y categoría. | `Product.activate()` | RF-03 | US03 CA-02 |
 | INV-08 | Un producto descontinuado no se modifica. | `Product.update()` | RF-02, RF-04 | US02 CA-02 |
-| INV-09 | Descontinuar exige motivo de al menos 10 caracteres. | `Product.discontinue()` | RF-04 | US04 CA-02 |
+| INV-09 | Descontinuar exige motivo de 10 a 500 caracteres (medidos sin espacios al inicio y al final). | `Product.discontinue()` | RF-04 | US04 CA-02 |
 | INV-10 | Un producto nunca se elimina. | No existe operación de borrado | RF-04 | US04 CA-04 |
 | INV-11 | Precio y categoría no pueden eliminarse una vez informados (un producto activo siempre está completo). | `Product.update()` | RF-02, visión §1 | US02 CA-05 |
 
@@ -91,11 +98,4 @@ classDiagram
 - **La unicidad del SKU (INV-02) no puede validarla `Product` solo:** un objeto no conoce a los demás productos. Se valida en el servicio de aplicación, consultando el puerto de salida.
 - **El dominio no contiene puertos ni conoce la persistencia:** solo modelo, reglas y excepciones de dominio. Los puertos se definen en `application` (ver `architecture.md`).
 
-```
-git add specs/architecture/domain-model.md
-git commit -m "design: modelo de dominio del producto con invariantes INV-01 a INV-10"
-
-```
-
-## Paso 6: Arquitectura en capas
 

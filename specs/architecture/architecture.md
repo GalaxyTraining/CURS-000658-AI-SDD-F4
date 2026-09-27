@@ -20,7 +20,7 @@ flowchart TB
         PP["port.out (interfaces)<br/>ProductPersistencePort"]
     end
     subgraph DOM["domain (Java puro)"]
-        AGG["Product, Sku, Price, ProductStatus, ProductCategory, excepciones"]
+        AGG["Product, ProductId, Sku, Price, ProductStatus, ProductCategory, excepciones"]
     end
     subgraph AOUT["adapter.out.persistence"]
         PAD["ProductPersistenceAdapter<br/>ProductJpaEntity + ProductPersistenceMapper"]
@@ -38,7 +38,7 @@ flowchart TB
 
 | Capa / paquete | Responsabilidad | Puede depender de | Nunca depende de |
 | :--- | :--- | :--- | :--- |
-| `domain` | Modelo, reglas e invariantes (INV-01 a INV-10), excepciones de dominio. | nada | Spring, JPA, HTTP, `application`, `adapter` |
+| `domain` | Modelo, reglas e invariantes (INV-01 a INV-11), excepciones de dominio. | nada | Spring, JPA, HTTP, `application`, `adapter` |
 | `application.port.in` | Interfaces de casos de uso + Commands, Queries y Results. | `domain` | `adapter` |
 | `application.port.out` | Interfaces de lo que la aplicación necesita del exterior. | `domain` | `adapter` |
 | `application.service` | Implementa `port.in`; orquesta dominio y `port.out`. | `domain`, `port.in`, `port.out` | `adapter` |
@@ -93,8 +93,9 @@ cada clase se rastrea a una sola historia.
 ```text
 pe.edu.galaxy.training.java.sdd.catalog
 ├── domain
-│   ├── model            # Product, Sku, Price, ProductStatus, ProductCategory
-│   └── exception        # InvalidStateTransitionException, ProductIncompleteException, ...
+│   ├── model            # Product, ProductId, Sku, Price, ProductStatus, ProductCategory
+│   └── exception        # ProductValidationException, ProductNotFoundException, DuplicateSkuException,
+│                        # InvalidStateTransitionException, ProductIncompleteException (una por fila de ADR-0004)
 ├── application
 │   ├── port
 │   │   ├── in           # *UseCase + Commands, Queries, Results

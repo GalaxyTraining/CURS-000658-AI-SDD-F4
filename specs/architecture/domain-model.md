@@ -97,5 +97,6 @@ classDiagram
 - **La categoría es un enum y no un Value Object:** el catálogo es cerrado; si fuera administrable, sería una entidad.
 - **La unicidad del SKU (INV-02) no puede validarla `Product` solo:** un objeto no conoce a los demás productos. Se valida en el servicio de aplicación, consultando el puerto de salida.
 - **El dominio no contiene puertos ni conoce la persistencia:** solo modelo, reglas y excepciones de dominio. Los puertos se definen en `application` (ver `architecture.md`).
-
-
+- **Reconstitución:** `Product.restore(...)` reconstruye un producto ya guardado (id, estado, fechas) sin aplicar reglas de transición. Lo usa solo el adaptador de persistencia.
+- **Tiempo:** los métodos que modifican el producto reciben un `java.time.Clock` para fijar `createdAt` y `updatedAt`, de modo que las pruebas controlan el tiempo.
+- **Actualización parcial:** en `Product.update(...)`, un argumento `null` significa "no enviado": se conserva el valor actual. Por eso no hay forma de quitar precio, categoría ni descripción una vez informados (INV-11 se cumple por diseño); el contrato rechaza `null` explícito con 400.

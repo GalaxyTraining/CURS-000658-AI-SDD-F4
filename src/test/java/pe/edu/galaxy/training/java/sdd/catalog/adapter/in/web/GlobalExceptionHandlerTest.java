@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.GetProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.UpdateProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.DuplicateSkuException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.InvalidStateTransitionException;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.ProductIncompleteException;
@@ -47,6 +48,9 @@ class GlobalExceptionHandlerTest {
 
     @MockitoBean
     private SearchProductsUseCase searchProductsUseCase;
+
+    @MockitoBean
+    private UpdateProductUseCase updateProductUseCase;
 
     static Stream<Arguments> domainExceptions() {
         return Stream.of(

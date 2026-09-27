@@ -14,6 +14,7 @@ import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductPageRe
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.UpdateProductUseCase;
 import java.net.URI;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +28,16 @@ public class ProductController implements ProductsApi {
     private final RegisterProductUseCase registerProductUseCase;
     private final GetProductUseCase getProductUseCase;
     private final SearchProductsUseCase searchProductsUseCase;
+    private final UpdateProductUseCase updateProductUseCase;
     private final ProductWebMapper mapper;
 
     public ProductController(RegisterProductUseCase registerProductUseCase, GetProductUseCase getProductUseCase,
-                             SearchProductsUseCase searchProductsUseCase, ProductWebMapper mapper) {
+                             SearchProductsUseCase searchProductsUseCase, UpdateProductUseCase updateProductUseCase,
+                             ProductWebMapper mapper) {
         this.registerProductUseCase = registerProductUseCase;
         this.getProductUseCase = getProductUseCase;
         this.searchProductsUseCase = searchProductsUseCase;
+        this.updateProductUseCase = updateProductUseCase;
         this.mapper = mapper;
     }
 
@@ -59,8 +63,8 @@ public class ProductController implements ProductsApi {
 
     @Override
     public ResponseEntity<ProductResponse> updateProduct(UUID productId, UpdateProductRequest updateProductRequest) {
-        // TODO updateProduct
-        throw new UnsupportedOperationException("updateProduct is not implemented yet");
+        ProductResult result = updateProductUseCase.update(mapper.toCommand(productId, updateProductRequest));
+        return ResponseEntity.ok(mapper.toResponse(result));
     }
 
     @Override

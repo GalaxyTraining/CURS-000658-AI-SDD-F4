@@ -11,6 +11,7 @@ import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductCommand;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.UpdateProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.domain.exception.DuplicateSkuException;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -48,6 +49,9 @@ class ProductControllerRegisterTest {
 
     @MockitoBean
     private SearchProductsUseCase searchProductsUseCase;
+
+    @MockitoBean
+    private UpdateProductUseCase updateProductUseCase;
 
     private MvcTestResult post(String json) {
         return mvc.post().uri(PATH).contentType(MediaType.APPLICATION_JSON).content(json).exchange();
@@ -119,6 +123,18 @@ class ProductControllerRegisterTest {
     void US01_CA05_categoryOutsideCatalog_returns400ValidationError() {
         MvcTestResult result = post("""
                 {"sku":"ELE-0001","name":"Wireless mouse","category":"TOYS"}
+                """);
+
+        assertThat(result).hasStatus(HttpStatus.BAD_REQUEST);
+        assertThat(result).bodyJson().extractingPath("$.code").isEqualTo("VALIDATION_ERROR");
+        verify(registerProductUseCase, never()).register(any());
+    }
+
+    /** ADR-0009: omitting a field is allowed, sending it as null is not. */
+    @Test
+    void US01_explicitNullPrice_returns400ValidationError() {
+        MvcTestResult result = post("""
+                {"sku":"ELE-0001","name":"Wireless mouse","price":null}
                 """);
 
         assertThat(result).hasStatus(HttpStatus.BAD_REQUEST);

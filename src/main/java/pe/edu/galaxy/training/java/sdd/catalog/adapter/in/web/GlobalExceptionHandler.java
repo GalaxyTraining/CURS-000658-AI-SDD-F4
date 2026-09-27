@@ -54,6 +54,12 @@ public class GlobalExceptionHandler {
         return error(HttpStatus.UNPROCESSABLE_CONTENT, ErrorCode.PRODUCT_INCOMPLETE, e);
     }
 
+    /** Contract constraints the generated code does not check, e.g. a PATCH without fields (ADR-0009). */
+    @ExceptionHandler(InvalidRequestException.class)
+    ResponseEntity<ErrorResponse> handleInvalidRequest(InvalidRequestException e) {
+        return error(HttpStatus.BAD_REQUEST, ErrorCode.VALIDATION_ERROR, e.getMessage(), e.getDetails());
+    }
+
     /** Contract constraints on the request body (pattern, length, minimum...). */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ErrorResponse> handleInvalidBody(MethodArgumentNotValidException e) {
@@ -63,7 +69,10 @@ public class GlobalExceptionHandler {
         return error(HttpStatus.BAD_REQUEST, ErrorCode.VALIDATION_ERROR, "Invalid request", details);
     }
 
-    /** Malformed JSON or a value outside a closed catalog, e.g. an unknown category (US01 CA-05). */
+    /**
+     * Malformed JSON, a value outside a closed catalog, e.g. an unknown category (US01 CA-05),
+     * or an explicit null (ADR-0009).
+     */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     ResponseEntity<ErrorResponse> handleUnreadableBody(HttpMessageNotReadableException e) {
         return error(HttpStatus.BAD_REQUEST, ErrorCode.VALIDATION_ERROR, "Invalid request",

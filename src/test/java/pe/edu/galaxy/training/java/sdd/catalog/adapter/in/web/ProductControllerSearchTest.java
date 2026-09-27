@@ -12,6 +12,7 @@ import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.ProductResult
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.RegisterProductUseCase;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsQuery;
 import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.SearchProductsUseCase;
+import pe.edu.galaxy.training.java.sdd.catalog.application.port.in.UpdateProductUseCase;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -47,6 +48,9 @@ class ProductControllerSearchTest {
 
     @MockitoBean
     private SearchProductsUseCase searchProductsUseCase;
+
+    @MockitoBean
+    private UpdateProductUseCase updateProductUseCase;
 
     private MvcTestResult get(String queryString) {
         return mvc.get().uri(PATH + queryString).exchange();

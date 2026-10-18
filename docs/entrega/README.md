@@ -61,7 +61,7 @@ seis valores ([catalogs.md](../../specs/domain/catalogs.md)).
 | Swagger UI (ADR-0008) | `http://localhost:8080/swagger-ui.html`, muestra el contrato autoritativo |
 | Consola H2 (ADR-0005, solo desarrollo) | `http://localhost:8080/h2-console`, JDBC URL `jdbc:h2:mem:catalogo`, usuario `sa`, sin contraseña |
 | Colección Postman de flujo (ADR-0012) | `postman collection run postman/catalogo-productos-flujo.postman_collection.json --env-var baseUrl=http://localhost:8080` |
-| Colección Postman de contrato (ADR-0012) | `postman/catalogo-productos-contrato.postman_collection.json` (ver §8, pendiente de regenerar para 1.1.0) |
+| Colección Postman de contrato (ADR-0012) | `postman/catalogo-productos-contrato.postman_collection.json`, regenerada desde el contrato 1.1.0 |
 
 La base H2 es en memoria: los datos se pierden al reiniciar.
 
@@ -177,6 +177,5 @@ Las revisiones de sincronización están en [docs/revisiones/](../revisiones/).
 | Seguridad | Fuera de alcance en este release ([API-GUIDELINES.md](../../specs/api/API-GUIDELINES.md)) | Definir autenticación y autorización con un ADR |
 | Persistencia | H2 en memoria: los datos se pierden al reiniciar (ADR-0005) | Un motor persistente requiere un ADR que reemplace ADR-0005 |
 | Consola H2 | Activa sin perfil; ADR-0005 la limita a desarrollo (observación S-03 de [sincronizar-3](../revisiones/2026-10-18-sincronizar-3.md)) | Si se despliega, limitarla a un perfil `dev` (decisión nueva, ADR) |
-| Colección Postman de contrato | No incluye todavía el valor `SPORTS` del contrato 1.1.0 ([CHANGELOG](../../specs/CHANGELOG.md)) | Regenerarla en Postman desde `catalog-openapi.yaml` (ADR-0012) |
 | Prueba de 406 | `WebFrameworkErrorsTest` no puede fallar por diseño en el caso 406 (observación S-05) | Sin acción; documentado en la prueba |
 | Advertencias de `spec_sync` | Ninguna (0 advertencias) | — |

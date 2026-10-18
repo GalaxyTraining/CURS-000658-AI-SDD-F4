@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "014219c8-a1cf-4f00-9190-18e7be4e0433",
+    "_postman_id": "2eba46ae-3407-4cc4-8dad-5d3c02b35a5a",
     "name": "Catálogo de Productos API",
     "description": "Contrato REST del Catálogo de Productos (Spec-First). Estados: domain/product-lifecycle.md. Categorías: domain/catalogs.md. Errores: adr/0004. Convenciones: api/API-GUIDELINES.md.\nExtensiones propias: - `x-spec-refs`: requerimientos e historias que originan la operación. - `x-transition`: transición de estado que produce la operación.\n",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -47,7 +47,7 @@
                               "variable": [
                                 {
                                   "key": "productId",
-                                  "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                  "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                 }
                               ]
                             },
@@ -79,7 +79,7 @@
                                   "variable": [
                                     {
                                       "key": "productId",
-                                      "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                      "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                     }
                                   ]
                                 }
@@ -94,7 +94,7 @@
                                 }
                               ],
                               "cookie": [],
-                              "body": "{\n  \"id\": \"8055469c-1a5a-b058-42d6-1f07522fec88\",\n  \"sku\": \"JRQ-6155\",\n  \"name\": \"string\",\n  \"status\": \"DRAFT\",\n  \"createdAt\": \"1982-11-21T17:03:17.534Z\",\n  \"updatedAt\": \"2015-04-18T02:38:51.043Z\",\n  \"description\": \"string\",\n  \"price\": 8073.148776441664,\n  \"category\": \"CLOTHING\",\n  \"discontinuationReason\": \"string\"\n}"
+                              "body": "{\n  \"id\": \"b2f53561-bd28-7e5f-6a14-d5b8efb72313\",\n  \"sku\": \"NQD-3143\",\n  \"name\": \"string\",\n  \"status\": \"ACTIVE\",\n  \"createdAt\": \"1987-10-19T11:41:20.388Z\",\n  \"updatedAt\": \"1986-03-28T07:58:18.771Z\",\n  \"description\": \"string\",\n  \"price\": 3522.423367449433,\n  \"category\": \"ELECTRONICS\",\n  \"discontinuationReason\": \"string\"\n}"
                             },
                             {
                               "name": "Datos inválidos (VALIDATION_ERROR)",
@@ -121,7 +121,7 @@
                                   "variable": [
                                     {
                                       "key": "productId",
-                                      "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                      "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                     }
                                   ]
                                 }
@@ -163,7 +163,7 @@
                                   "variable": [
                                     {
                                       "key": "productId",
-                                      "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                      "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                     }
                                   ]
                                 }
@@ -205,7 +205,7 @@
                                   "variable": [
                                     {
                                       "key": "productId",
-                                      "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                      "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                     }
                                   ]
                                 }
@@ -247,7 +247,7 @@
                                   "variable": [
                                     {
                                       "key": "productId",
-                                      "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                      "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                     }
                                   ]
                                 }
@@ -289,7 +289,7 @@
                                   "variable": [
                                     {
                                       "key": "productId",
-                                      "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                      "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                     }
                                   ]
                                 }
@@ -352,7 +352,7 @@
                               "variable": [
                                 {
                                   "key": "productId",
-                                  "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                  "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                 }
                               ]
                             },
@@ -398,7 +398,7 @@
                                   "variable": [
                                     {
                                       "key": "productId",
-                                      "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                      "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                     }
                                   ]
                                 }
@@ -413,7 +413,7 @@
                                 }
                               ],
                               "cookie": [],
-                              "body": "{\n  \"id\": \"8055469c-1a5a-b058-42d6-1f07522fec88\",\n  \"sku\": \"JRQ-6155\",\n  \"name\": \"string\",\n  \"status\": \"DRAFT\",\n  \"createdAt\": \"1982-11-21T17:03:17.534Z\",\n  \"updatedAt\": \"2015-04-18T02:38:51.043Z\",\n  \"description\": \"string\",\n  \"price\": 8073.148776441664,\n  \"category\": \"CLOTHING\",\n  \"discontinuationReason\": \"string\"\n}"
+                              "body": "{\n  \"id\": \"b2f53561-bd28-7e5f-6a14-d5b8efb72313\",\n  \"sku\": \"NQD-3143\",\n  \"name\": \"string\",\n  \"status\": \"ACTIVE\",\n  \"createdAt\": \"1987-10-19T11:41:20.388Z\",\n  \"updatedAt\": \"1986-03-28T07:58:18.771Z\",\n  \"description\": \"string\",\n  \"price\": 3522.423367449433,\n  \"category\": \"ELECTRONICS\",\n  \"discontinuationReason\": \"string\"\n}"
                             },
                             {
                               "name": "Datos inválidos (VALIDATION_ERROR)",
@@ -454,7 +454,7 @@
                                   "variable": [
                                     {
                                       "key": "productId",
-                                      "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                      "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                     }
                                   ]
                                 }
@@ -510,7 +510,7 @@
                                   "variable": [
                                     {
                                       "key": "productId",
-                                      "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                      "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                     }
                                   ]
                                 }
@@ -566,7 +566,7 @@
                                   "variable": [
                                     {
                                       "key": "productId",
-                                      "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                      "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                     }
                                   ]
                                 }
@@ -622,7 +622,7 @@
                                   "variable": [
                                     {
                                       "key": "productId",
-                                      "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                      "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                     }
                                   ]
                                 }
@@ -667,7 +667,7 @@
                           "variable": [
                             {
                               "key": "productId",
-                              "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                              "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                             }
                           ]
                         }
@@ -697,7 +697,7 @@
                               "variable": [
                                 {
                                   "key": "productId",
-                                  "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                  "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                 }
                               ]
                             }
@@ -712,7 +712,7 @@
                             }
                           ],
                           "cookie": [],
-                          "body": "{\n  \"id\": \"8055469c-1a5a-b058-42d6-1f07522fec88\",\n  \"sku\": \"JRQ-6155\",\n  \"name\": \"string\",\n  \"status\": \"DRAFT\",\n  \"createdAt\": \"1982-11-21T17:03:17.534Z\",\n  \"updatedAt\": \"2015-04-18T02:38:51.043Z\",\n  \"description\": \"string\",\n  \"price\": 8073.148776441664,\n  \"category\": \"CLOTHING\",\n  \"discontinuationReason\": \"string\"\n}"
+                          "body": "{\n  \"id\": \"b2f53561-bd28-7e5f-6a14-d5b8efb72313\",\n  \"sku\": \"NQD-3143\",\n  \"name\": \"string\",\n  \"status\": \"ACTIVE\",\n  \"createdAt\": \"1987-10-19T11:41:20.388Z\",\n  \"updatedAt\": \"1986-03-28T07:58:18.771Z\",\n  \"description\": \"string\",\n  \"price\": 3522.423367449433,\n  \"category\": \"ELECTRONICS\",\n  \"discontinuationReason\": \"string\"\n}"
                         },
                         {
                           "name": "Datos inválidos (VALIDATION_ERROR)",
@@ -738,7 +738,7 @@
                               "variable": [
                                 {
                                   "key": "productId",
-                                  "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                  "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                 }
                               ]
                             }
@@ -779,7 +779,7 @@
                               "variable": [
                                 {
                                   "key": "productId",
-                                  "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                  "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                 }
                               ]
                             }
@@ -820,7 +820,7 @@
                               "variable": [
                                 {
                                   "key": "productId",
-                                  "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                  "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                 }
                               ]
                             }
@@ -877,7 +877,7 @@
                           "variable": [
                             {
                               "key": "productId",
-                              "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                              "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                             }
                           ]
                         },
@@ -922,7 +922,7 @@
                               "variable": [
                                 {
                                   "key": "productId",
-                                  "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                  "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                 }
                               ]
                             }
@@ -937,7 +937,7 @@
                             }
                           ],
                           "cookie": [],
-                          "body": "{\n  \"id\": \"8055469c-1a5a-b058-42d6-1f07522fec88\",\n  \"sku\": \"JRQ-6155\",\n  \"name\": \"string\",\n  \"status\": \"DRAFT\",\n  \"createdAt\": \"1982-11-21T17:03:17.534Z\",\n  \"updatedAt\": \"2015-04-18T02:38:51.043Z\",\n  \"description\": \"string\",\n  \"price\": 8073.148776441664,\n  \"category\": \"CLOTHING\",\n  \"discontinuationReason\": \"string\"\n}"
+                          "body": "{\n  \"id\": \"b2f53561-bd28-7e5f-6a14-d5b8efb72313\",\n  \"sku\": \"NQD-3143\",\n  \"name\": \"string\",\n  \"status\": \"ACTIVE\",\n  \"createdAt\": \"1987-10-19T11:41:20.388Z\",\n  \"updatedAt\": \"1986-03-28T07:58:18.771Z\",\n  \"description\": \"string\",\n  \"price\": 3522.423367449433,\n  \"category\": \"ELECTRONICS\",\n  \"discontinuationReason\": \"string\"\n}"
                         },
                         {
                           "name": "Datos inválidos (VALIDATION_ERROR)",
@@ -977,7 +977,7 @@
                               "variable": [
                                 {
                                   "key": "productId",
-                                  "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                  "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                 }
                               ]
                             }
@@ -1032,7 +1032,7 @@
                               "variable": [
                                 {
                                   "key": "productId",
-                                  "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                  "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                 }
                               ]
                             }
@@ -1087,7 +1087,7 @@
                               "variable": [
                                 {
                                   "key": "productId",
-                                  "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                  "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                 }
                               ]
                             }
@@ -1142,7 +1142,7 @@
                               "variable": [
                                 {
                                   "key": "productId",
-                                  "value": "68d039fc-2047-51d4-88fb-5f44c57e213a"
+                                  "value": "788cfaae-5d4b-cbd3-ffa0-8dfa28bda483"
                                 }
                               ]
                             }
@@ -1415,7 +1415,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{baseUrl}}/api/v1/products?status=ACTIVE&category=FOOD&page=0&size=20",
+                      "raw": "{{baseUrl}}/api/v1/products?status=DRAFT&category=FOOD&page=0&size=20",
                       "host": [
                         "{{baseUrl}}"
                       ],
@@ -1427,7 +1427,7 @@
                       "query": [
                         {
                           "key": "status",
-                          "value": "ACTIVE"
+                          "value": "DRAFT"
                         },
                         {
                           "key": "category",
@@ -1456,7 +1456,7 @@
                           }
                         ],
                         "url": {
-                          "raw": "{{baseUrl}}/api/v1/products?status=ACTIVE&category=FOOD&page=0&size=20",
+                          "raw": "{{baseUrl}}/api/v1/products?status=DRAFT&category=FOOD&page=0&size=20",
                           "host": [
                             "{{baseUrl}}"
                           ],
@@ -1468,7 +1468,7 @@
                           "query": [
                             {
                               "key": "status",
-                              "value": "ACTIVE"
+                              "value": "DRAFT"
                             },
                             {
                               "key": "category",
@@ -1495,7 +1495,7 @@
                         }
                       ],
                       "cookie": [],
-                      "body": "{\n  \"items\": [\n    {\n      \"id\": \"8ff7a48e-7c5f-9ac1-a581-32115c81e09b\",\n      \"sku\": \"WZP-9121\",\n      \"name\": \"string\",\n      \"status\": \"DISCONTINUED\",\n      \"createdAt\": \"1954-10-04T12:39:06.396Z\",\n      \"updatedAt\": \"2001-10-17T21:39:19.614Z\",\n      \"description\": \"string\",\n      \"price\": 6694.898675949853,\n      \"category\": \"HOME\",\n      \"discontinuationReason\": \"string\"\n    },\n    {\n      \"id\": \"c84689c2-74d2-7f63-50b0-049a14cb0917\",\n      \"sku\": \"HGK-5601\",\n      \"name\": \"string\",\n      \"status\": \"DISCONTINUED\",\n      \"createdAt\": \"1964-04-25T23:44:53.300Z\",\n      \"updatedAt\": \"1998-06-15T12:58:11.769Z\",\n      \"description\": \"string\",\n      \"price\": 9242.585561098935,\n      \"category\": \"CLOTHING\",\n      \"discontinuationReason\": \"string\"\n    }\n  ],\n  \"page\": 2723,\n  \"size\": 7920,\n  \"totalElements\": 5130,\n  \"totalPages\": 1207\n}"
+                      "body": "{\n  \"items\": [\n    {\n      \"id\": \"781c4a08-cc91-2239-c12b-c6fdf3604ee4\",\n      \"sku\": \"VBF-0379\",\n      \"name\": \"string\",\n      \"status\": \"DISCONTINUED\",\n      \"createdAt\": \"1986-08-14T00:52:59.546Z\",\n      \"updatedAt\": \"2002-12-21T13:53:44.966Z\",\n      \"description\": \"string\",\n      \"price\": 1040.0708083406996,\n      \"category\": \"ELECTRONICS\",\n      \"discontinuationReason\": \"string\"\n    },\n    {\n      \"id\": \"2b95e401-9077-0be2-3d4b-6bb985bc7525\",\n      \"sku\": \"FQO-0403\",\n      \"name\": \"string\",\n      \"status\": \"DRAFT\",\n      \"createdAt\": \"1952-07-10T15:34:22.658Z\",\n      \"updatedAt\": \"2019-06-17T08:44:41.497Z\",\n      \"description\": \"string\",\n      \"price\": 5250.235620486662,\n      \"category\": \"HOME\",\n      \"discontinuationReason\": \"string\"\n    }\n  ],\n  \"page\": 6027,\n  \"size\": 6931,\n  \"totalElements\": 4139,\n  \"totalPages\": 7888\n}"
                     },
                     {
                       "name": "Datos inválidos (VALIDATION_ERROR)",
@@ -1508,7 +1508,7 @@
                           }
                         ],
                         "url": {
-                          "raw": "{{baseUrl}}/api/v1/products?status=ACTIVE&category=FOOD&page=0&size=20",
+                          "raw": "{{baseUrl}}/api/v1/products?status=DRAFT&category=FOOD&page=0&size=20",
                           "host": [
                             "{{baseUrl}}"
                           ],
@@ -1520,7 +1520,7 @@
                           "query": [
                             {
                               "key": "status",
-                              "value": "ACTIVE"
+                              "value": "DRAFT"
                             },
                             {
                               "key": "category",
@@ -1560,7 +1560,7 @@
                           }
                         ],
                         "url": {
-                          "raw": "{{baseUrl}}/api/v1/products?status=ACTIVE&category=FOOD&page=0&size=20",
+                          "raw": "{{baseUrl}}/api/v1/products?status=DRAFT&category=FOOD&page=0&size=20",
                           "host": [
                             "{{baseUrl}}"
                           ],
@@ -1572,7 +1572,7 @@
                           "query": [
                             {
                               "key": "status",
-                              "value": "ACTIVE"
+                              "value": "DRAFT"
                             },
                             {
                               "key": "category",

@@ -161,7 +161,7 @@ sequenceDiagram
         C-->>A: 404
     else existe
         PP-->>S: Product
-        S->>P: activate()
+        S->>P: activate(clock)
         alt estado no es DRAFT
             P-->>S: InvalidStateTransitionException (INV-06)
             S-->>C: excepción

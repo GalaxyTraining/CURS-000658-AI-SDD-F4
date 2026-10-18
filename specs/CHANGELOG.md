@@ -28,3 +28,33 @@ Cada entrada documenta un cambio sobre `specs/` gestionado con `/cambio-spec`.
   3. `docs:` regenerar `docs/sync-report.md` y mover la revisión manual a
      `docs/revisiones/2026-10-18-sincronizar.md`.
 - **Fuera de alcance:** H-02, H-05 y H-10 (requieren decisiones nuevas) y H-09 (opcional).
+
+## 2026-10-18 - Pendientes de la revisión: consola H2, errores de Spring MVC y Postman
+
+- **Descripción:** se resuelven los hallazgos pendientes de la revisión `/sincronizar` del 2026-10-18
+  (`docs/revisiones/2026-10-18-sincronizar.md`) y la divergencia D-4 de `docs/tecnica/README.md`.
+  - D-4: el diagrama de secuencia de `architecture.md` §6 llama a `activate(clock)`.
+  - H-02: la consola H2 se conserva como parte de ADR-0005, solo para desarrollo, sin ADR nuevo:
+    fila de Base de datos en `tech-stack.md` y una consecuencia nueva en ADR-0005.
+  - H-05: nuevo ADR-0010 (adoptado de la versión original del proyecto). Los errores propios de
+    Spring MVC (404, 405, 406, 415) conservan su HTTP y quedan fuera del contrato. Complementa a
+    ADR-0007, que sigue Aceptado y gana una referencia a ADR-0010 en Consecuencias.
+  - H-10: nuevo ADR-0012. Postman como verificación complementaria con dos colecciones: la de contrato,
+    generada desde `catalog-openapi.yaml`, y la de flujo, escrita a mano. Se añade una fila en
+    `tech-stack.md` y una sección en `traceability.md`.
+- **Motivo:** cerrar los hallazgos que requerían decisión. ADR-0005 y ADR-0007 se amplían a pedido
+  explícito, sin cambiar su decisión. El número 0011 de ADR queda reservado.
+- **Archivos de spec modificados:** `specs/architecture/architecture.md`, `specs/architecture/tech-stack.md`,
+  `specs/adr/0005-base-de-datos-h2.md`, `specs/adr/0007-error-interno-generico.md`,
+  `specs/adr/0010-errores-propios-de-spring-mvc.md` (nuevo), `specs/adr/0012-colecciones-postman.md` (nuevo),
+  `specs/adr/README.md`, `specs/traceability.md`.
+- **Compatibilidad del contrato:** sin cambios en `catalog-openapi.yaml`; `info.version` sigue en 1.0.0.
+- **Commits previstos:**
+  1. `design:` este cambio de specs.
+  2. `tooling:` `spring.h2.console.enabled=true` y `spring.h2.console.path=/h2-console`.
+  3. `test:` `WebFrameworkErrorsTest` (404, 405, 406, 415, ninguno responde 500) y su fila en
+     `traceability.md` ("Pruebas de reglas transversales").
+  4. `test:` renombrar la colección a `catalogo-productos-flujo.postman_collection.json` y quitar la
+     carpeta `api/` vacía.
+  5. `docs:` exportar desde Postman `catalogo-productos-contrato.postman_collection.json` (lo hace el autor).
+  6. `docs:` `/sincronizar` y `/documentar`.

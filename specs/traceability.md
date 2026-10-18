@@ -34,3 +34,12 @@ US04 CA-04 (un producto descontinuado se sigue consultando, INV-10) se prueba en
 | ADR-0009: `null` explícito en un request | ProductControllerUpdateTest (US02_CA05), ProductControllerRegisterTest, ProductControllerDiscontinueTest |
 | ADR-0009: `PATCH` sin campos | ProductControllerUpdateTest |
 | Arranque del contexto completo | CatalogoProductosApplicationTests |
+
+## Colecciones Postman (ADR-0012)
+
+Verificación complementaria contra la aplicación en ejecución; no sustituye las pruebas `USxx_CAyy`.
+
+| Colección | Origen | Cubre |
+| :--- | :--- | :--- |
+| `postman/catalogo-productos-contrato.postman_collection.json` | Generada desde `catalog-openapi.yaml` (no se edita) | Las 6 operaciones del contrato, una petición por `operationId` |
+| `postman/catalogo-productos-flujo.postman_collection.json` | Escrita a mano | Ciclo de vida de `product-lifecycle.md`: US01 CA-01 y CA-02, US05 CA-01, US02 CA-01, US03 CA-01, US04 CA-01 y US05 CA-03 |

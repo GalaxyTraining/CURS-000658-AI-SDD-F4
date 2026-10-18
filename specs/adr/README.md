@@ -11,3 +11,5 @@
 | [0007](0007-error-interno-generico.md) | Error 500 genérico `INTERNAL_ERROR` sin detalles internos | Aceptado |
 | [0008](0008-swagger-ui-con-contrato.md) | Swagger UI con springdoc mostrando el contrato autoritativo | Aceptado |
 | [0009](0009-null-explicito-en-requests.md) | Rechazo de null explícito y de cuerpos sin campos en los requests | Aceptado |
+| [0010](0010-errores-propios-de-spring-mvc.md) | Errores propios de Spring MVC (404/405/406/415) conservan su HTTP, fuera del contrato | Aceptado |
+| [0012](0012-colecciones-postman.md) | Colecciones Postman (contrato generada + flujo manual) como verificación complementaria | Aceptado |

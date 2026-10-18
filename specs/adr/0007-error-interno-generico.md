@@ -29,3 +29,4 @@ formato por defecto, distinto de `ErrorResponse`, que además puede exponer deta
 - El diagnóstico se hace con el log, no con la respuesta.
 - Verificación: una prueba web provoca una excepción no prevista y comprueba HTTP 500, `code` y que el
   mensaje interno no aparece en la respuesta.
+- Ver ADR-0010: los errores propios de Spring MVC (404, 405, 406, 415) conservan su HTTP y quedan fuera de esta regla.

@@ -97,7 +97,7 @@ class US02UpdateProductTest {
     }
 
     @Test
-    void US02_CA05_emptyPriceAndCategory_keepCurrentValues() {
+    void US02_CA05_notSentPriceAndCategory_keepCurrentValues() {
         Product product = ProductFixtures.completeDraft();
 
         product.update("Gaming mouse", null, null, null, CLOCK_T1);

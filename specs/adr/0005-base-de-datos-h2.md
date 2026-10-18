@@ -19,3 +19,6 @@ Usaremos H2 en memoria con Spring Data JPA dentro de `adapter.out.persistence`.
 ## Consecuencias
 - Los datos se pierden al reiniciar (aceptable en este contexto).
 - Cambiar a PostgreSQL solo afecta `adapter.out.persistence` y la configuración, gracias a ADR-0001.
+- La consola web de H2 (`spring-boot-h2console`, en `/h2-console`) se habilita para inspeccionar los datos
+  durante el desarrollo, en coherencia con el objetivo de ejecutar sin infraestructura. No forma parte del
+  contrato ni de la verificación.

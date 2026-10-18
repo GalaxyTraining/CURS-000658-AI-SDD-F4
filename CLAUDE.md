@@ -33,8 +33,11 @@ de verdad: nada se implementa si no está especificado primero.
    `USxx_CAyy_descripcionEnIngles` (ej. `US03_CA02_activateWithoutPrice_isRejected`).
    Las reglas de dominio se prueban con JUnit puro, sin Spring.
 8. **Idioma (`specs/conventions.md`):** código en inglés; documentación en castellano.
-9. **Antes de cada commit:** `python tools/spec_lint.py` debe dar OK y `mvn test` debe pasar.
-10. **Commits:** prefijos `spec:`, `design:`, `contract:`, `tooling:`, `feat:`, `test:`, `fix:`, `refactor:`.
+9. **Antes de cada commit:** `python tools/spec_lint.py` y `python tools/spec_sync.py` deben dar OK y
+   `mvn test` debe pasar.
+10. **Commits:** prefijos `spec:`, `design:`, `contract:`, `tooling:`, `feat:`, `test:`, `fix:`, `refactor:`, `docs:`.
+11. **Documentación derivada (`docs/`):** se genera desde `specs/` y el código con `/documentar`; nunca
+    define reglas propias. Si contradice una spec, manda la spec y la documentación se regenera.
 
 
 ## Stack y comandos
@@ -43,6 +46,7 @@ Stack: `specs/architecture/tech-stack.md`. No agregues dependencias sin un ADR.
 | Acción | Comando |
 | :--- | :--- |
 | Validar specs y contrato | `python tools/spec_lint.py` |
+| Verificar specs ↔ implementación | `python tools/spec_sync.py` (informe: `--md docs/sync-report.md`) |
 | Regenerar la API desde el contrato | `./mvnw clean generate-sources` |
 | Compilar y probar | `./mvnw test` |
 | Ejecutar la aplicación | `./mvnw spring-boot:run` |

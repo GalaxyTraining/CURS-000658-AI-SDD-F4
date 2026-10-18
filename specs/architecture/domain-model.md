@@ -33,10 +33,11 @@ classDiagram
         String discontinuationReason
         Instant createdAt
         Instant updatedAt
-        +register(sku, name, description, price, category)$ Product
-        +update(name, description, price, category)
-        +activate()
-        +discontinue(reason)
+        +register(sku, name, description, price, category, clock)$ Product
+        +restore(id, sku, name, description, price, category, status, discontinuationReason, createdAt, updatedAt)$ Product
+        +update(name, description, price, category, clock)
+        +activate(clock)
+        +discontinue(reason, clock)
     }
 
     class ProductId {
@@ -91,7 +92,7 @@ classDiagram
 | INV-08 | Un producto descontinuado no se modifica. | `Product.update()` | RF-02, RF-04 | US02 CA-02 |
 | INV-09 | Descontinuar exige motivo de 10 a 500 caracteres (medidos y guardados sin espacios al inicio y al final). | `Product.discontinue()` | RF-04 | US04 CA-02 |
 | INV-10 | Un producto nunca se elimina. | No existe operación de borrado | RF-04 | US04 CA-04 |
-| INV-11 | Precio y categoría no pueden eliminarse una vez informados (un producto activo siempre está completo). | `Product.update()` | RF-02, visión §1 | US02 CA-05 |
+| INV-11 | Precio y categoría no pueden eliminarse una vez informados (un producto activo siempre está completo). | `Product.update()` (null = conservar el valor); el null explícito lo rechaza `adapter.in.web` con 400 antes de llegar al dominio (ADR-0009) | RF-02, visión §1 | US02 CA-05 |
 
 ## 4. Decisiones de modelado
 - **La categoría es un enum y no un Value Object:** el catálogo es cerrado; si fuera administrable, sería una entidad.

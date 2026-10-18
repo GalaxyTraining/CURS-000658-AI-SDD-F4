@@ -111,25 +111,28 @@ cada clase se rastrea a una sola historia.
 pe.edu.galaxy.training.java.sdd.catalog
 ├── domain
 │   ├── model            # Product, ProductId, Sku, Price, ProductStatus, ProductCategory
-│   └── exception        # ProductValidationException, ProductNotFoundException, DuplicateSkuException,
-│                        # InvalidStateTransitionException, ProductIncompleteException (una por fila de ADR-0004)
-application
-├── port
+│   └── exception        # DomainException (base abstracta con details), ProductValidationException,
+│                        # ProductNotFoundException, DuplicateSkuException, InvalidStateTransitionException,
+│                        # ProductIncompleteException (una por fila de ADR-0004)
+├── application
+│   ├── port
+│   │   ├── in
+│   │   │   ├── usecase  # RegisterProductUseCase, UpdateProductUseCase, ActivateProductUseCase,
+│   │   │   │            # DiscontinueProductUseCase, GetProductUseCase, SearchProductsUseCase
+│   │   │   ├── command  # RegisterProductCommand, UpdateProductCommand,
+│   │   │   │            # ActivateProductCommand, DiscontinueProductCommand
+│   │   │   ├── query    # GetProductQuery, SearchProductsQuery
+│   │   │   └── result   # ProductResult, ProductPageResult
+│   │   └── out          # ProductPersistencePort, ProductPage
+│   └── service          # solo *Service (implementaciones de port.in.usecase)
+├── adapter
 │   ├── in
-│   │   ├── usecase     # RegisterProductUseCase, UpdateProductUseCase, ActivateProductUseCase,
-│   │   │               # DiscontinueProductUseCase, GetProductUseCase, SearchProductsUseCase
-│   │   ├── command     # RegisterProductCommand, UpdateProductCommand,
-│   │   │               # ActivateProductCommand, DiscontinueProductCommand
-│   │   ├── query       # GetProductQuery, SearchProductsQuery
-│   │   └── result      # ProductResult, ProductPageResult
-│   └── out             # ProductPersistencePort, ProductPage
-└── service             # solo *Service (implementaciones de port.in.usecase)
-└── adapter
-    ├── in
-    │   └── web          # ProductController, ProductWebMapper, GlobalExceptionHandler
-    │       └── generated# DTO e interfaz generados del contrato (no editar)
-    └── out
-        └── persistence  # ProductPersistenceAdapter, ProductJpaEntity, ProductPersistenceMapper, SpringDataProductJpa
+│   │   └── web          # ProductController, ProductWebMapper, GlobalExceptionHandler,
+│   │       │            # RejectExplicitNullsModule, InvalidRequestException (ADR-0009)
+│   │       └── generated # DTO e interfaz generados del contrato (no editar)
+│   └── out
+│       └── persistence  # ProductPersistenceAdapter, ProductJpaEntity, ProductPersistenceMapper, SpringDataProductJpa
+└── config               # ClockConfiguration (composition root)
 ```
 
 **Ensamblaje (`config`):** beans de configuración que no son adaptadores (composition root).
@@ -158,7 +161,7 @@ sequenceDiagram
         C-->>A: 404
     else existe
         PP-->>S: Product
-        S->>P: activate()
+        S->>P: activate(clock)
         alt estado no es DRAFT
             P-->>S: InvalidStateTransitionException (INV-06)
             S-->>C: excepción

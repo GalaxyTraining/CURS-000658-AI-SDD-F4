@@ -23,7 +23,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-/** Maps every error to ErrorResponse, one row of ADR-0004 each, plus INTERNAL_ERROR (ADR-0007). */
+/**
+ * Maps domain and request errors to ErrorResponse, one row of ADR-0004 each, plus INTERNAL_ERROR
+ * (ADR-0007). Spring MVC's own errors keep their HTTP status (ADR-0010).
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -112,7 +115,7 @@ public class GlobalExceptionHandler {
 
     /**
      * ADR-0007: any unexpected exception, without internal details. Spring MVC's own errors
-     * (405, 415, unknown route...) are rethrown so Spring keeps answering them as usual.
+     * (404 unknown route, 405, 406, 415) are rethrown so Spring keeps answering them (ADR-0010).
      */
     @ExceptionHandler(Exception.class)
     ResponseEntity<ErrorResponse> handleUnexpected(Exception e) throws Exception {

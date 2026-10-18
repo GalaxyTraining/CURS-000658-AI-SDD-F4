@@ -12,7 +12,7 @@ Justificación en `adr/0001`.
 flowchart TB
     CLIENT["Cliente HTTP"]
     subgraph AIN["adapter.in.web"]
-        CTRL["ProductController + ProductWebMapper<br/>DTO web generados: RegisterProductRequest, ProductResponse..."]
+        CTRL["ProductController + ProductWebMapper + GlobalExceptionHandler<br/>DTO web generados: RegisterProductRequest, ProductResponse..."]
     end
     subgraph APP["application"]
         UCI["port.in (interfaces)<br/>RegisterProductUseCase, UpdateProductUseCase, ActivateProductUseCase,<br/>DiscontinueProductUseCase, GetProductUseCase, SearchProductsUseCase<br/>+ Commands, Queries, ProductResult"]
@@ -25,15 +25,22 @@ flowchart TB
     subgraph AOUT["adapter.out.persistence"]
         PAD["ProductPersistenceAdapter<br/>ProductJpaEntity + ProductPersistenceMapper"]
     end
+    subgraph CFG["config"]
+        CC["ClockConfiguration (composition root)"]
+    end
     DB[("H2")]
 
     CLIENT --> CTRL
     CTRL -- "usa" --> UCI
+    CTRL -. "excepciones y enums" .-> AGG
     UCI -. "implementada por" .-> SVC
+    UCI -- "usa" --> AGG
     SVC -- "usa" --> AGG
     SVC -- "usa" --> PP
     PP -. "implementada por" .-> PAD
+    PAD -- "usa" --> AGG
     PAD --> DB
+    CC -. "provee Clock" .-> SVC
 ```
 
 | Capa / paquete | Responsabilidad | Puede depender de | Nunca depende de |
@@ -58,8 +65,8 @@ flowchart LR
     J["JSON HTTP"] --> R["RegisterProductRequest<br/>(adapter.in.web, generado)"]
     R -->|ProductWebMapper| C["RegisterProductCommand<br/>(application.port.in)"]
     C -->|service| P["Product<br/>(domain)"]
-    P -->|ProductPersistenceMapper| E["ProductJpaEntity<br/>(adapter.out.persistence)"]
-    P -->|service| RES["ProductResult<br/>(application.port.in)"]
+    P <-->|ProductPersistenceMapper| E["ProductJpaEntity<br/>(adapter.out.persistence)"]
+    P -->|ProductResult.from| RES["ProductResult<br/>(application.port.in)"]
     RES -->|ProductWebMapper| RESP["ProductResponse<br/>(adapter.in.web, generado)"]
 ```
 
@@ -108,7 +115,7 @@ cada clase se rastrea a una sola historia.
 ## 5. Estructura de paquetes
 
 ```text
-pe.edu.galaxy.training.java.sdd.catalog
+pe.edu.galaxy.training.java.sdd.catalog   # CatalogoProductosApplication (arranque de Spring Boot)
 ├── domain
 │   ├── model            # Product, ProductId, Sku, Price, ProductStatus, ProductCategory
 │   └── exception        # DomainException (base abstracta con details), ProductValidationException,
@@ -129,7 +136,8 @@ pe.edu.galaxy.training.java.sdd.catalog
 │   ├── in
 │   │   └── web          # ProductController, ProductWebMapper, GlobalExceptionHandler,
 │   │       │            # RejectExplicitNullsModule, InvalidRequestException (ADR-0009)
-│   │       └── generated # DTO e interfaz generados del contrato (no editar)
+│   │       └── generated # ProductsApi: interfaz generada del contrato (no editar)
+│   │           └── model # DTO web generados: RegisterProductRequest, ProductResponse... (no editar)
 │   └── out
 │       └── persistence  # ProductPersistenceAdapter, ProductJpaEntity, ProductPersistenceMapper, SpringDataProductJpa
 └── config               # ClockConfiguration (composition root)
@@ -146,6 +154,7 @@ sequenceDiagram
     autonumber
     actor A as Administrador
     participant C as ProductController
+    participant H as GlobalExceptionHandler
     participant UC as ActivateProductUseCase
     participant S as ActivateProductService
     participant PP as ProductPersistencePort
@@ -157,22 +166,24 @@ sequenceDiagram
     S->>PP: findById(id)
     alt no existe
         PP-->>S: vacío
-        S-->>C: ProductNotFoundException
-        C-->>A: 404
+        S-->>H: ProductNotFoundException
+        H-->>A: 404
     else existe
         PP-->>S: Product
         S->>P: activate(clock)
         alt estado no es DRAFT
             P-->>S: InvalidStateTransitionException (INV-06)
-            S-->>C: excepción
-            C-->>A: 409
+            S-->>H: excepción
+            H-->>A: 409
         else falta precio o categoría
             P-->>S: ProductIncompleteException (INV-07)
-            S-->>C: excepción
-            C-->>A: 422
+            S-->>H: excepción
+            H-->>A: 422
         else válido
             P->>P: status = ACTIVE
             S->>PP: save(product)
+            PP-->>S: Product
+            S->>S: ProductResult.from(product)
             S-->>C: ProductResult
             C->>C: ProductWebMapper a ProductResponse
             C-->>A: 200 ProductResponse

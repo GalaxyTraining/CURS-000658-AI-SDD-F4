@@ -2,6 +2,27 @@
 
 Cada entrada documenta un cambio sobre `specs/` gestionado con `/cambio-spec`.
 
+## 2026-10-18 - Sincronizar diagramas de arquitectura con el código
+
+- **Descripción:** revisión `/diagramas` de `architecture.md`; los diagramas habían quedado atrás del
+  código, que cumple la spec escrita.
+  - D-01: §2 dibuja las dependencias hacia `domain` que la tabla de §2 ya permitía: `port.in`,
+    `adapter.in.web` (excepciones y enums) y `adapter.out.persistence`.
+  - D-02: §2 nombra `GlobalExceptionHandler` en `adapter.in.web`.
+  - D-03: §2 agrega `config` (`ClockConfiguration`), que provee el `Clock` a los servicios.
+  - D-04: §3 muestra que `ProductPersistenceMapper` convierte en ambos sentidos (`toEntity`/`toDomain`).
+  - D-05: §3 nombra `ProductResult.from` como la conversión de `Product` a `ProductResult`.
+  - D-06: §5 agrega `CatalogoProductosApplication` en la raíz y el subpaquete `generated.model`.
+  - D-07: §6 muestra que `GlobalExceptionHandler`, no `ProductController`, responde 404/409/422.
+  - D-08: §6 muestra el `Product` devuelto por `save` y `ProductResult.from`.
+- **Motivo:** diagramas incompletos frente al código y a las tablas del mismo archivo. No hay
+  decisiones nuevas ni desvíos del código.
+- **Archivos de spec modificados:** `specs/architecture/architecture.md`.
+- **Compatibilidad del contrato:** sin cambios en `catalog-openapi.yaml`; `info.version` no cambia.
+- **Commits previstos:**
+  1. `design:` diagramas sincronizados con la implementación (este cambio).
+  2. `docs:` diagramas de secuencia por operación en `docs/tecnica/diagramas.md`.
+
 ## 2026-10-18 - Sincronizar specs de diseño con el código
 
 - **Descripción:** se corrige la documentación de diseño para que refleje el código existente, según

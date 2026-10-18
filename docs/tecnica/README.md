@@ -23,6 +23,7 @@ con `/documentar`.
 | [operaciones/](operaciones/) | Trazabilidad completa por operación: historia, criterios, clases y pruebas |
 | [pruebas.md](pruebas.md) | Estrategia de pruebas por capa y cobertura de criterios de aceptación |
 | [decisiones.md](decisiones.md) | Resumen de los ADR |
+| [diagramas.md](diagramas.md) | Componentes adaptador → puerto → servicio y una secuencia por operación (generado con `/diagramas`) |
 
 Operaciones: [registerProduct](operaciones/registerProduct.md) ·
 [updateProduct](operaciones/updateProduct.md) · [activateProduct](operaciones/activateProduct.md) ·

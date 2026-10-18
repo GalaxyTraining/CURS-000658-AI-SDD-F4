@@ -69,6 +69,7 @@ classDiagram
         FOOD
         CLOTHING
         OFFICE
+        SPORTS
     }
 
     Product *-- ProductId

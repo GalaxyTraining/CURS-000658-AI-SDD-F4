@@ -85,7 +85,7 @@ Fuente: [domain-model.md §3](../../../specs/architecture/domain-model.md).
 | CA-04 | [`UpdateProductServiceTest`](../../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/application/service/UpdateProductServiceTest.java) | `US02_CA04_invalidPrice_isRejectedAndUnchanged` |
 | CA-05 | [`ProductControllerUpdateTest`](../../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/ProductControllerUpdateTest.java) | `US02_CA05_explicitNullOnly_returns400` |
 | CA-05 | [`ProductControllerUpdateTest`](../../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/ProductControllerUpdateTest.java) | `US02_CA05_explicitNullPriceOrCategory_returns400` |
-| CA-05 | [`US02UpdateProductTest`](../../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/domain/model/US02UpdateProductTest.java) | `US02_CA05_emptyPriceAndCategory_keepCurrentValues` |
+| CA-05 | [`US02UpdateProductTest`](../../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/domain/model/US02UpdateProductTest.java) | `US02_CA05_notSentPriceAndCategory_keepCurrentValues` |
 | CA-05 | [`UpdateProductServiceTest`](../../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/application/service/UpdateProductServiceTest.java) | `US02_CA05_notSentPriceAndCategory_keepCurrentValues` |
 
 23 pruebas `US02_CAyy` de esta operación. Las pruebas de dominio son JUnit puro y las de aplicación usan `InMemoryProductPersistence`, sin Spring ([pruebas.md](../pruebas.md)).

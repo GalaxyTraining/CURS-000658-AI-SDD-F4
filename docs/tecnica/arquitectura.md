@@ -79,7 +79,7 @@ Raíz: `pe.edu.galaxy.training.java.sdd.catalog`. Esta tabla sale de recorrer `s
 | `application.service` | `RegisterProductService`, `UpdateProductService`, `ActivateProductService`, `DiscontinueProductService`, `GetProductService`, `SearchProductsService` | `@Service` |
 | `adapter.in.web` | [`ProductController`](../../src/main/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/ProductController.java) | Implementa `ProductsApi` |
 | | [`ProductWebMapper`](../../src/main/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/ProductWebMapper.java) | DTO web ↔ Command/Query/Result |
-| | [`GlobalExceptionHandler`](../../src/main/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/GlobalExceptionHandler.java) | Excepción → `ErrorResponse` (ADR-0004, ADR-0007) |
+| | [`GlobalExceptionHandler`](../../src/main/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/GlobalExceptionHandler.java) | Excepción → `ErrorResponse` (ADR-0004, ADR-0007); relanza los errores propios de Spring MVC (ADR-0010) |
 | | [`RejectExplicitNullsModule`](../../src/main/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/RejectExplicitNullsModule.java), [`InvalidRequestException`](../../src/main/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/InvalidRequestException.java) | ADR-0009 |
 | `adapter.in.web.generated` | `ProductsApi` y los DTO del contrato | Generados (no se editan) |
 | `adapter.out.persistence` | [`ProductPersistenceAdapter`](../../src/main/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/out/persistence/ProductPersistenceAdapter.java) | Implementa `ProductPersistencePort` |
@@ -114,6 +114,7 @@ flowchart LR
 5. **Result:** el servicio devuelve `ProductResult` (o `ProductPageResult`); el `Product` no sale de `application`.
 6. **Response:** `ProductWebMapper` produce `ProductResponse` o `ProductPageResponse`. Si en cualquier paso se
    lanza una excepción, `GlobalExceptionHandler` la traduce a `ErrorResponse` ([api.md](api.md#errores)).
+   Los errores propios de Spring MVC (404 de ruta, 405, 406, 415) conservan su HTTP (ADR-0010).
 
 El diagrama de secuencia completo de `activateProduct` está en
 [architecture.md §6](../../specs/architecture/architecture.md).

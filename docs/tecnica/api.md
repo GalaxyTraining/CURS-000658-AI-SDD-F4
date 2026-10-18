@@ -56,8 +56,22 @@ Todas las respuestas de error usan `ErrorResponse { code, message, details }`
 - El 500 nunca expone el mensaje interno ni el stack trace: responde `message: "Unexpected error"` y
   `details: []`, y la excepción se registra en el log con nivel `ERROR` (ADR-0007).
 - La traducción la hace [`GlobalExceptionHandler`](../../src/main/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/GlobalExceptionHandler.java).
-  Los errores HTTP del propio framework (405, 415, rutas inexistentes) no pasan por esta tabla: ver la
-  divergencia D-2 en el [README](README.md#divergencias-detectadas).
+
+### Errores fuera del contrato (ADR-0010)
+
+Cuando la petición ni siquiera llega a una operación del contrato, Spring MVC responde con su propio HTTP
+y con el cuerpo de error por defecto de Spring Boot, no con `ErrorResponse`. Estos errores no se declaran
+en el contrato ([ADR-0010](../../specs/adr/0010-errores-propios-de-spring-mvc.md)):
+
+| HTTP | Cuándo |
+| :---: | :--- |
+| 404 | Ruta inexistente (no confundir con `PRODUCT_NOT_FOUND`, que es un producto inexistente en una ruta válida) |
+| 405 | Método HTTP no permitido en una ruta existente |
+| 406 | `Accept` que la operación no puede producir |
+| 415 | `Content-Type` no soportado |
+
+Nunca responden 500 `INTERNAL_ERROR`, y el cuerpo por defecto no expone mensaje ni traza
+(`{"timestamp", "status", "error", "path"}`). Lo verifica `WebFrameworkErrorsTest`.
 
 Ejemplo (`components/responses/ValidationError`):
 

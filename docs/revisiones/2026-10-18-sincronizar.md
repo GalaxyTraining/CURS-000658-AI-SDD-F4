@@ -9,8 +9,10 @@
 | :--- | :--- | :--- |
 | H-01, H-03, H-04, H-06, H-08 | Resuelto | `326ad24` (`design:`) |
 | H-07 | Resuelto | `326ad24` (`design:`) + `d36f47e` (`refactor:`) |
-| H-02, H-05, H-10 | Pendiente: requiere decisión nueva | — |
-| H-09 | Pendiente: opcional | — |
+| H-02 | Resuelto: la consola H2 forma parte de ADR-0005 | `3e1fff2` (`design:`) + `c52e8c1` (`tooling:`) |
+| H-05 | Resuelto: ADR-0010 | `3e1fff2` (`design:`) + `19185a1` (`test:`) |
+| H-10 | Resuelto: ADR-0012 | `3e1fff2` (`design:`) + `0bc5a8a` (`test:`) + `552c501` (`docs:`) |
+| H-09 | Resuelto: renombrada la prueba de US02 CA-05 | `1e2d5ea` (`refactor:`) |
 
 El resto del documento conserva la revisión tal como se hizo, antes de las correcciones.
 

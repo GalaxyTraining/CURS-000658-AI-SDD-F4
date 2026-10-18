@@ -38,10 +38,11 @@ Resumen de [tech-stack.md](../../specs/architecture/tech-stack.md). Las versione
 | :--- | :--- | :--- |
 | Lenguaje | Java 25 | ADR-0006 |
 | Framework | Spring Boot 4.1.x (Web MVC, Validation, Data JPA) | ADR-0001, ADR-0006 |
-| Base de datos | H2 en memoria | ADR-0005 |
+| Base de datos | H2 en memoria (+ consola H2, solo para desarrollo) | ADR-0005 |
 | Contrato | OpenAPI 3.0.3, interfaz `ProductsApi` generada con openapi-generator | ADR-0006 |
 | Documentación de la API | springdoc-openapi 3.x (Swagger UI con el contrato) | ADR-0008 |
 | Pruebas | JUnit 6 (Jupiter) + Spring Boot Test | ADR-0006 |
+| Pruebas de API (complementarias) | Postman: colección de contrato (generada) y colección de flujo | ADR-0012 |
 | Validación de specs | Python 3 + PyYAML | — |
 
 ## Comandos
@@ -68,22 +69,28 @@ No se editan archivos en `target/generated-sources`: se regeneran desde
 - **URL base:** `http://localhost:8080` (`servers` del contrato). Todas las rutas empiezan por `/api/v1`.
 - **Base de datos:** H2 en memoria (`jdbc:h2:mem:catalogo`); los datos se pierden al reiniciar
   ([application.properties](../../src/main/resources/application.properties), ADR-0005).
+- **Consola H2 (solo para desarrollo):** `http://localhost:8080/h2-console`, con JDBC URL `jdbc:h2:mem:catalogo`,
+  usuario `sa` y contraseña vacía (ADR-0005, `spring.h2.console.*` en
+  [application.properties](../../src/main/resources/application.properties)). Está activa en cualquier
+  ejecución, porque el proyecto solo se ejecuta en desarrollo.
 - **Swagger UI:** springdoc carga el contrato autoritativo `/catalog-openapi.yaml`, que Maven copia desde
   `specs/api/` a `static/` al compilar (ADR-0008, `springdoc.swagger-ui.url`). La interfaz queda en la
   ruta por defecto de springdoc, `http://localhost:8080/swagger-ui.html`.
-- **Postman:** [`postman/catalogo-productos.postman_collection.json`](../../postman/catalogo-productos.postman_collection.json)
-  contiene la carpeta "Flujo ciclo de vida" (registrar, SKU duplicado, consultar, actualizar, activar,
-  descontinuar y listar), con las variables `baseUrl`, `sku` y `productId`. No es parte de ninguna spec
-  (ver Divergencias).
+- **Postman (complementario a `mvn test`, ADR-0012):** dos colecciones con funciones distintas, que se
+  ejecutan contra la aplicación en marcha.
+
+  | Colección | Origen | Uso |
+  | :--- | :--- | :--- |
+  | [`catalogo-productos-contrato`](../../postman/catalogo-productos-contrato.postman_collection.json) | Generada en Postman desde el contrato. No se edita a mano: se regenera cuando cambia el contrato | Una petición por `operationId`, con las respuestas de ejemplo del contrato |
+  | [`catalogo-productos-flujo`](../../postman/catalogo-productos-flujo.postman_collection.json) | Escrita a mano | Ciclo de vida encadenado por `sku` y `productId`, con aserciones `pm.test` por criterio |
+
+  Para ejecutar la de flujo desde la línea de comandos:
+  `postman collection run postman/catalogo-productos-flujo.postman_collection.json --env-var baseUrl=http://localhost:8080`.
 
 ## Divergencias detectadas
 
-Hechos del código o del repositorio que ninguna spec describe. Aquí no se documentan como reglas.
-El detalle está en [docs/revisiones/2026-10-18-sincronizar.md](../revisiones/2026-10-18-sincronizar.md).
-
-| ID | Divergencia | Hallazgo |
-| :--- | :--- | :--- |
-| D-1 | `pom.xml` incluye `spring-boot-h2console`, pero ninguna spec ni ADR lo menciona y la consola no está habilitada (`spring.h2.console.enabled` no existe). **La consola H2 no está disponible.** | H-02 |
-| D-2 | `GlobalExceptionHandler` relanza las excepciones del framework (405, 415, 406 y ruta inexistente 404), que responden con el formato de Spring y no con `ErrorResponse`. ADR-0007 dice que toda excepción no mapeada responde 500. | H-05 |
-| D-3 | La colección de Postman no figura en ninguna spec y tiene carpetas vacías (`api/v1/products/{productId}/activate` y `discontinue`). | H-10 |
-| D-4 | El diagrama de secuencia de [architecture.md §6](../../specs/architecture/architecture.md) llama a `activate()` sin `Clock`; el código usa `Product.activate(Clock)` ([domain-model.md §4](../../specs/architecture/domain-model.md)). | Nuevo (similar a H-06) |
+Ninguna. Las divergencias D-1 a D-4 de la versión anterior de este documento se resolvieron con ADR-0005
+(consola H2), ADR-0010 (errores de Spring MVC), ADR-0012 (Postman) y la corrección del diagrama de
+[architecture.md §6](../../specs/architecture/architecture.md). Detalle en
+[2026-10-18-sincronizar.md](../revisiones/2026-10-18-sincronizar.md) y
+[2026-10-18-sincronizar-2.md](../revisiones/2026-10-18-sincronizar-2.md).

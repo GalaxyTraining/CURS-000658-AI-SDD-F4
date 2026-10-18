@@ -2,6 +2,29 @@
 
 Cada entrada documenta un cambio sobre `specs/` gestionado con `/cambio-spec`.
 
+## 2026-10-18 - Categoría SPORTS en el catálogo
+
+- **Descripción:** se agrega la categoría `SPORTS` ("Artículos deportivos.") al final del catálogo cerrado
+  de categorías, sin reordenar los valores existentes.
+- **Motivo:** cambio de negocio solicitado (ejemplo de gestión de cambios del ítem 4 del curso).
+- **Archivos de spec modificados:** `specs/domain/catalogs.md` (§1), `specs/architecture/domain-model.md`
+  (§2, enum `ProductCategory`), `specs/api/catalog-openapi.yaml` (`info.version` y `ProductCategory.enum`).
+- **Compatibilidad del contrato:** compatible (se agrega un valor de enum; no se elimina ni renombra nada).
+  `info.version` pasa de `1.0.0` a `1.1.0`. Un cliente que valide el enum de forma estricta en las
+  respuestas debe aceptar el nuevo valor.
+- **Sin cambios:** visión, RF, historias y criterios (no enumeran categorías), invariantes, ADR,
+  `architecture.md` y `traceability.md` (no hay operaciones ni criterios nuevos).
+- **Commits previstos:**
+  1. `spec:` categoría SPORTS en `catalogs.md`.
+  2. `design:` SPORTS en el `classDiagram` de `domain-model.md`.
+  3. `contract:` SPORTS en el contrato, versión 1.1.0 (este commit incluye esta entrada).
+  4. `feat:` SPORTS en `ProductCategory.java` y prueba de registro con la nueva categoría.
+  5. `docs:` regenerar `docs/tecnica/` (`dominio.md`, `api.md`).
+- **Pendiente:** regenerar en Postman `postman/catalogo-productos-contrato.postman_collection.json`
+  desde el contrato 1.1.0 (ADR-0012); requiere acceso a Postman.
+- **Nota:** `spec_lint.py` falla en los commits intermedios (DOM-02 tras `spec:`, CODE-01 tras `contract:`)
+  porque compara catálogo, contrato y enum Java; el conjunto se fusiona solo cuando todo da OK.
+
 ## 2026-10-18 - Sincronizar diagramas de arquitectura con el código
 
 - **Descripción:** revisión `/diagramas` de `architecture.md`; los diagramas habían quedado atrás del

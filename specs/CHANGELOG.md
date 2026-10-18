@@ -20,8 +20,8 @@ Cada entrada documenta un cambio sobre `specs/` gestionado con `/cambio-spec`.
   3. `contract:` SPORTS en el contrato, versión 1.1.0 (este commit incluye esta entrada).
   4. `feat:` SPORTS en `ProductCategory.java` y prueba de registro con la nueva categoría.
   5. `docs:` regenerar `docs/tecnica/` (`dominio.md`, `api.md`).
-- **Pendiente:** regenerar en Postman `postman/catalogo-productos-contrato.postman_collection.json`
-  desde el contrato 1.1.0 (ADR-0012); requiere acceso a Postman.
+- **Pendiente (resuelto):** `postman/catalogo-productos-contrato.postman_collection.json` se regeneró en
+  Postman desde el contrato 1.1.0 (ADR-0012), en un commit `docs:` posterior.
 - **Nota:** `spec_lint.py` falla en los commits intermedios (DOM-02 tras `spec:`, CODE-01 tras `contract:`)
   porque compara catálogo, contrato y enum Java; el conjunto se fusiona solo cuando todo da OK.
 

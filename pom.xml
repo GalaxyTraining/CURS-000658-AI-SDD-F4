@@ -10,7 +10,7 @@
 		<!-- lookup parent from repository -->
 	</parent>
 	<groupId>pe.edu.galaxy.training.java.sdd</groupId>
-	<artifactId>catalogo-productos-v2</artifactId>
+	<artifactId>catalogo-productos-v3</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>

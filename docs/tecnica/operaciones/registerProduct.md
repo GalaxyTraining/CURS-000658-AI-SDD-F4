@@ -67,6 +67,7 @@ Fuente: [domain-model.md §3](../../../specs/architecture/domain-model.md).
 | Criterio | Clase | Prueba |
 | :--- | :--- | :--- |
 | CA-01 | [`ProductControllerRegisterTest`](../../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/ProductControllerRegisterTest.java) | `US01_CA01_validRequest_returns201WithLocationAndBody` |
+| CA-01 | [`ProductControllerRegisterTest`](../../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/ProductControllerRegisterTest.java) | `US01_CA01_registerWithSportsCategory_returns201` |
 | CA-01 | [`RegisterProductServiceTest`](../../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/application/service/RegisterProductServiceTest.java) | `US01_CA01_validCommand_isSavedAsDraftWithClockTime` |
 | CA-01 | [`US01RegisterProductTest`](../../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/domain/model/US01RegisterProductTest.java) | `US01_CA01_descriptionLongerThanFiveHundredCharacters_isRejected` |
 | CA-01 | [`US01RegisterProductTest`](../../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/domain/model/US01RegisterProductTest.java) | `US01_CA01_nameAndDescriptionWithSurroundingSpaces_areStoredStripped` |

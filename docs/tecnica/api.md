@@ -2,7 +2,7 @@
 
 # API REST
 
-El contrato autoritativo es [catalog-openapi.yaml](../../specs/api/catalog-openapi.yaml) (versión 1.0.0,
+El contrato autoritativo es [catalog-openapi.yaml](../../specs/api/catalog-openapi.yaml) (versión 1.1.0,
 OpenAPI 3.0.3). Este documento lo resume. Si hay diferencias, manda el contrato.
 `ProductController` implementa la interfaz generada `ProductsApi`, así que las rutas, los nombres y los
 `operationId` son exactamente los del contrato.
@@ -95,7 +95,7 @@ Ejemplo (`components/responses/ValidationError`):
 | `ErrorResponse` | `code`\*, `message`\*, `details`\* | `code` del enum `ErrorCode` |
 
 \* obligatorio. Enums: `ProductStatus` = `DRAFT`, `ACTIVE`, `DISCONTINUED`; `ProductCategory` =
-`ELECTRONICS`, `HOME`, `FOOD`, `CLOTHING`, `OFFICE`; `ErrorCode` = `VALIDATION_ERROR`, `PRODUCT_NOT_FOUND`,
+`ELECTRONICS`, `HOME`, `FOOD`, `CLOTHING`, `OFFICE`, `SPORTS`; `ErrorCode` = `VALIDATION_ERROR`, `PRODUCT_NOT_FOUND`,
 `DUPLICATE_SKU`, `INVALID_STATE_TRANSITION`, `PRODUCT_INCOMPLETE`, `INTERNAL_ERROR`.
 
 ---

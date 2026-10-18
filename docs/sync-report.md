@@ -8,7 +8,7 @@ Generado por `python tools/spec_sync.py --md`. No editar a mano.
 
 | Criterio | Pruebas | Clases |
 | :--- | :---: | :--- |
-| US01_CA01 | 7 | ProductControllerRegisterTest, RegisterProductServiceTest, US01RegisterProductTest |
+| US01_CA01 | 8 | ProductControllerRegisterTest, RegisterProductServiceTest, US01RegisterProductTest |
 | US01_CA02 | 3 | ProductControllerRegisterTest, ProductPersistenceAdapterTest, RegisterProductServiceTest |
 | US01_CA03 | 2 | ProductControllerRegisterTest, US01RegisterProductTest |
 | US01_CA04 | 3 | ProductControllerRegisterTest, US01RegisterProductTest |

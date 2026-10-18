@@ -23,11 +23,11 @@ Fuentes: CLAUDE.md (regla 7), [traceability.md](../../specs/traceability.md) y `
 | :--- | :--- | :--- | :---: |
 | Dominio (`domain.model`) | [US01RegisterProductTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/domain/model/US01RegisterProductTest.java), [US02UpdateProductTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/domain/model/US02UpdateProductTest.java), [US03ActivateProductTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/domain/model/US03ActivateProductTest.java), [US04DiscontinueProductTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/domain/model/US04DiscontinueProductTest.java) (+ [ProductFixtures](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/domain/model/ProductFixtures.java)) | JUnit puro, con casos `@ParameterizedTest` | 50 |
 | Aplicación (`application.service`) | [RegisterProductServiceTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/application/service/RegisterProductServiceTest.java), [UpdateProductServiceTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/application/service/UpdateProductServiceTest.java), [ActivateProductServiceTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/application/service/ActivateProductServiceTest.java), [DiscontinueProductServiceTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/application/service/DiscontinueProductServiceTest.java), [GetProductServiceTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/application/service/GetProductServiceTest.java), [SearchProductsServiceTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/application/service/SearchProductsServiceTest.java) | JUnit sin Spring, con el doble [InMemoryProductPersistence](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/application/service/InMemoryProductPersistence.java) del puerto de salida | 32 |
-| Web (`adapter.in.web`) | ProductController{Register,Update,Activate,Discontinue,Get,Search}Test, [GlobalExceptionHandlerTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/GlobalExceptionHandlerTest.java), [WebFrameworkErrorsTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/WebFrameworkErrorsTest.java) | `@WebMvcTest(ProductController.class)` con los `*UseCase` como `@MockitoBean`: mapeo HTTP ↔ Command/Result, validaciones del contrato y errores | 62 |
+| Web (`adapter.in.web`) | ProductController{Register,Update,Activate,Discontinue,Get,Search}Test, [GlobalExceptionHandlerTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/GlobalExceptionHandlerTest.java), [WebFrameworkErrorsTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/in/web/WebFrameworkErrorsTest.java) | `@WebMvcTest(ProductController.class)` con los `*UseCase` como `@MockitoBean`: mapeo HTTP ↔ Command/Result, validaciones del contrato y errores | 63 |
 | Persistencia (`adapter.out.persistence`) | [ProductPersistenceAdapterTest](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/adapter/out/persistence/ProductPersistenceAdapterTest.java) | `@DataJpaTest` sobre H2: SKU único, filtros, paginación y orden | 6 |
 | Contexto | [CatalogoProductosApplicationTests](../../src/test/java/pe/edu/galaxy/training/java/sdd/catalog/CatalogoProductosApplicationTests.java) | `@SpringBootTest`: arranque completo | 1 |
 
-**Total: 151 ejecuciones** en la última corrida de `./mvnw test` (0 fallos), de las cuales 89 son métodos
+**Total: 152 ejecuciones** en la última corrida de `./mvnw test` (0 fallos), de las cuales 90 son métodos
 `USxx_CAyy`. "Ejecuciones" cuenta cada caso parametrizado por separado, como hace surefire.
 
 ## Reglas transversales
@@ -47,7 +47,7 @@ El detalle por operación está en [operaciones/](operaciones/).
 
 | Criterio | Pruebas | Clases |
 | :--- | :---: | :--- |
-| US01_CA01 | 7 | ProductControllerRegisterTest, RegisterProductServiceTest, US01RegisterProductTest |
+| US01_CA01 | 8 | ProductControllerRegisterTest, RegisterProductServiceTest, US01RegisterProductTest |
 | US01_CA02 | 3 | ProductControllerRegisterTest, ProductPersistenceAdapterTest, RegisterProductServiceTest |
 | US01_CA03 | 2 | ProductControllerRegisterTest, US01RegisterProductTest |
 | US01_CA04 | 3 | ProductControllerRegisterTest, US01RegisterProductTest |

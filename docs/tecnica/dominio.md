@@ -53,6 +53,7 @@ Catálogo cerrado: un valor fuera de él se rechaza con 400 `VALIDATION_ERROR`
 | `FOOD` | Alimentos y bebidas. |
 | `CLOTHING` | Ropa y accesorios. |
 | `OFFICE` | Útiles y artículos de oficina. |
+| `SPORTS` | Artículos deportivos. |
 
 ## 4. Modelo
 
@@ -92,6 +93,7 @@ classDiagram
         FOOD
         CLOTHING
         OFFICE
+        SPORTS
     }
     Product *-- ProductId
     Product *-- Sku

@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Catálogo de Productos API
-  version: 1.0.0
+  version: 1.1.0
   description: >
     Contrato REST del Catálogo de Productos (Spec-First).
     Estados: domain/product-lifecycle.md. Categorías: domain/catalogs.md.
@@ -316,7 +316,7 @@ components:
     ProductCategory:
       type: string
       description: Ver domain/catalogs.md.
-      enum: [ELECTRONICS, HOME, FOOD, CLOTHING, OFFICE]
+      enum: [ELECTRONICS, HOME, FOOD, CLOTHING, OFFICE, SPORTS]
 
     ErrorCode:
       type: string

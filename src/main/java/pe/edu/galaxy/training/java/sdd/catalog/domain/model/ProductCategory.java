@@ -6,5 +6,6 @@ public enum ProductCategory {
     HOME,
     FOOD,
     CLOTHING,
-    OFFICE
+    OFFICE,
+    SPORTS
 }

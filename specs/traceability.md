@@ -33,6 +33,7 @@ US04 CA-04 (un producto descontinuado se sigue consultando, INV-10) se prueba en
 | ADR-0004 y ADR-0007: cada fila HTTP + `code` e `INTERNAL_ERROR` sin detalles internos | GlobalExceptionHandlerTest |
 | ADR-0009: `null` explícito en un request | ProductControllerUpdateTest (US02_CA05), ProductControllerRegisterTest, ProductControllerDiscontinueTest |
 | ADR-0009: `PATCH` sin campos | ProductControllerUpdateTest |
+| ADR-0010: errores propios de Spring MVC (404, 405, 406, 415) conservan su HTTP y nunca responden 500 | WebFrameworkErrorsTest |
 | Arranque del contexto completo | CatalogoProductosApplicationTests |
 
 ## Colecciones Postman (ADR-0012)

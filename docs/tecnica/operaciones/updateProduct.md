@@ -37,6 +37,8 @@
 4. `Product.update(..., clock)` rechaza un producto `DISCONTINUED` (INV-08), valida textos (INV-04) y conserva los valores no enviados (INV-11). El SKU no se toca (INV-03).
 5. `ProductPersistencePort.save` persiste y el controlador responde 200.
 
+El diagrama de secuencia de esta operación está en [diagramas.md](../diagramas.md#updateproduct-us02).
+
 ## Invariantes
 
 | ID | Regla | Dónde se garantiza |

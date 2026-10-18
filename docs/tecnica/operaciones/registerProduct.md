@@ -38,6 +38,8 @@
 4. `ProductPersistencePort.save` persiste; una violación de la restricción única del SKU se traduce a `DuplicateSkuException` (INV-02).
 5. El controlador responde 201 con `Location: /api/v1/products/{id}` y el `ProductResponse`.
 
+El diagrama de secuencia de esta operación está en [diagramas.md](../diagramas.md#registerproduct-us01).
+
 ## Invariantes
 
 | ID | Regla | Dónde se garantiza |

@@ -93,5 +93,6 @@ No se editan archivos en `target/generated-sources`: se regeneran desde
 Ninguna. Las divergencias D-1 a D-4 de la versión anterior de este documento se resolvieron con ADR-0005
 (consola H2), ADR-0010 (errores de Spring MVC), ADR-0012 (Postman) y la corrección del diagrama de
 [architecture.md §6](../../specs/architecture/architecture.md). Detalle en
-[2026-10-18-sincronizar.md](../revisiones/2026-10-18-sincronizar.md) y
-[2026-10-18-sincronizar-2.md](../revisiones/2026-10-18-sincronizar-2.md).
+[2026-10-18-sincronizar.md](../revisiones/2026-10-18-sincronizar.md),
+[2026-10-18-sincronizar-2.md](../revisiones/2026-10-18-sincronizar-2.md) y
+[2026-10-18-sincronizar-3.md](../revisiones/2026-10-18-sincronizar-3.md).

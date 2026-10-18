@@ -34,7 +34,7 @@
 3. `Product.activate(clock)` rechaza un estado distinto de `DRAFT` (INV-06, 409) y exige precio y categoría (INV-07, 422 con los datos faltantes en `details`).
 4. `ProductPersistencePort.save` persiste y el controlador responde 200 con `status: ACTIVE`.
 
-El diagrama de secuencia de esta operación está en [architecture.md §6](../../../specs/architecture/architecture.md).
+El diagrama de secuencia de esta operación está en [diagramas.md](../diagramas.md#activateproduct-us03) y, como flujo de referencia, en [architecture.md §6](../../../specs/architecture/architecture.md).
 
 ## Invariantes
 

@@ -1,0 +1,4 @@
+Contrato: specs\api\catalog-openapi.yaml (v1.1.0)
+Operaciones: 6 | Errores: 0 | Advertencias: 0
+RESULTADO: OK - contrato listo para implementar
+exit=0

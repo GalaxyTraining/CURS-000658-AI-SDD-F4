@@ -6,7 +6,7 @@ Verifica que specs/, código, pruebas y documentación digan lo mismo, siguiendo
 
 ## Paso 1 — Verificación automática (determinista)
 Ejecuta y reporta la salida completa:
-1. `python tools/spec_lint.py` — contrato consistente con las specs de negocio.
+2. `python tools/spec_sync.py --md docs/sync-report.md` — informe automático (se regenera siempre; no lo edites).
 2. `python tools/spec_sync.py --md docs/sync-report.md` — operaciones implementadas, traceability,
    criterios de aceptación con prueba, invariantes, índice de ADR, tipos de architecture.md, stack.
 3. `./mvnw test` (en Windows `.\mvnw.cmd test`) — número de pruebas, fallos y omitidas.
@@ -34,5 +34,13 @@ Nunca resuelvas un desvío "ajustando la spec al código" sin decir explícitame
 nueva: en SDD eso requiere mi aprobación.
 
 ## Paso 4 — Informe
-Tabla final de hallazgos (ID, tipo, evidencia, resolución propuesta, commit) añadida al final de
-`docs/sync-report.md`. **No corrijas nada** hasta que yo elija qué hallazgos resolver.
+**Formato del ID:** `SYNC-AAAAMMDD-NN` (fecha de la revisión + correlativo), por ejemplo `SYNC-20261018-01`.
+Es único entre revisiones. Si un hallazgo ya existía en una revisión anterior y sigue abierto,
+conserva su ID original e indícalo en la columna "Estado" (nuevo / sigue abierto / resuelto).
+
+Escribe la revisión en `docs/revisiones/AAAA-MM-DD-sincronizar.md`, no en `docs/sync-report.md`
+(ese archivo lo regenera `spec_sync.py --md` y se sobrescribe). Lee antes las revisiones anteriores
+de `docs/revisiones/` para reutilizar los ID de los hallazgos que sigan abiertos.
+
+Tabla final de hallazgos: ID, estado, tipo, evidencia, resolución propuesta, commit.
+**No corrijas nada** hasta que yo elija qué hallazgos resolver.

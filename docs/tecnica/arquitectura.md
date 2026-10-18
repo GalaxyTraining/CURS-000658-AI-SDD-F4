@@ -36,10 +36,13 @@ flowchart TB
 
     CLIENT --> CTRL
     CTRL -- "usa" --> UCI
+    CTRL -. "excepciones y enums" .-> AGG
     UCI -. "implementada por" .-> SVC
+    UCI -- "usa" --> AGG
     SVC -- "usa" --> AGG
     SVC -- "usa" --> PP
     PP -. "implementada por" .-> PAD
+    PAD -- "usa" --> AGG
     PAD --> DB
     CFG -. "provee Clock" .-> SVC
 ```
@@ -97,7 +100,7 @@ flowchart LR
     J["JSON HTTP"] --> R["*Request<br/>(adapter.in.web, generado)"]
     R -->|ProductWebMapper| C["*Command / *Query<br/>(application.port.in)"]
     C -->|"*Service"| P["Product<br/>(domain)"]
-    P -->|ProductPersistenceMapper| E["ProductJpaEntity<br/>(adapter.out.persistence)"]
+    P <-->|ProductPersistenceMapper| E["ProductJpaEntity<br/>(adapter.out.persistence)"]
     P -->|"ProductResult.from"| RES["ProductResult<br/>(application.port.in)"]
     RES -->|ProductWebMapper| RESP["ProductResponse<br/>(adapter.in.web, generado)"]
 ```
@@ -116,8 +119,9 @@ flowchart LR
    lanza una excepción, `GlobalExceptionHandler` la traduce a `ErrorResponse` ([api.md](api.md#errores)).
    Los errores propios de Spring MVC (404 de ruta, 405, 406, 415) conservan su HTTP (ADR-0010).
 
-El diagrama de secuencia completo de `activateProduct` está en
-[architecture.md §6](../../specs/architecture/architecture.md).
+El diagrama de secuencia de referencia (`activateProduct`) está en
+[architecture.md §6](../../specs/architecture/architecture.md). Las secuencias de las seis operaciones y el
+diagrama de componentes adaptador → puerto → servicio están en [diagramas.md](diagramas.md).
 
 ## 5. Puertos
 

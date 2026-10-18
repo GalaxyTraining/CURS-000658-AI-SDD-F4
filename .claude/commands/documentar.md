@@ -23,9 +23,13 @@ Si se indicó `$ARGUMENTS`, regenera solo esa sección.
 2. **Plan:** lista los archivos que vas a crear o actualizar y la fuente de cada sección. Espera mi aprobación.
 3. **Genera** en `docs/tecnica/`:
    - `README.md` — índice, propósito (de `vision.md`), cómo compilar, probar y ejecutar (comandos de CLAUDE.md,
-     Swagger UI, consola H2, colección de `postman/`).
+     Swagger UI, consola H2, colección de `postman/`). Si existe `diagramas.md`, inclúyelo en el índice.
    - `arquitectura.md` — capas y regla de dependencia (ADR-0001), tabla **paquete → clases reales**
      (recorriendo `src/main/java`), flujo Request → Command → Product → Entity → Result → Response.
+     Los diagramas de capas y de modelos por frontera reflejan los de `architecture.md` §2 y §3
+     (mismas dependencias y sentidos de conversión).
+   - `diagramas.md` — **no lo generes ni lo edites**: lo mantiene `/diagramas`. Si existe, enlázalo desde el
+     índice, desde `arquitectura.md` y desde cada `operaciones/<operationId>.md` (sección de su operación).
    - `api.md` — una sección por `operationId`: método, ruta, request, respuestas y códigos de error
      (de `catalog-openapi.yaml` y ADR-0004), con un ejemplo de petición y respuesta tomado del contrato.
    - `dominio.md` — glosario, estados y transiciones, invariantes INV-01..INV-11 con la clase que las garantiza.

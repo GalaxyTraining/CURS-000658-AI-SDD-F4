@@ -35,6 +35,8 @@
 3. `Product.discontinue(reason, clock)` rechaza un producto ya `DISCONTINUED` (INV-06, 409) y valida el motivo recortado (INV-09, 400).
 4. `ProductPersistencePort.save` persiste: el producto no se elimina (INV-10) y se sigue consultando con `getProduct`.
 
+El diagrama de secuencia de esta operación está en [diagramas.md](../diagramas.md#discontinueproduct-us04).
+
 ## Invariantes
 
 | ID | Regla | Dónde se garantiza |

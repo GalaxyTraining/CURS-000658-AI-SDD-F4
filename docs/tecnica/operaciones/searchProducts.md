@@ -35,6 +35,8 @@ Esta operación cubre CA-03, CA-04 de US05; el resto lo cubre [getProduct](getPr
 3. `ProductPersistenceAdapter` pagina y ordena por `createdAt` ascendente y luego por `id` (RF-05).
 4. El servicio devuelve `ProductPageResult` y el controlador responde 200 con `ProductPageResponse`.
 
+El diagrama de secuencia de esta operación está en [diagramas.md](../diagramas.md#searchproducts-us05).
+
 ## Invariantes
 
 Ninguna ([traceability.md](../../../specs/traceability.md)). El orden del listado viene de RF-05.

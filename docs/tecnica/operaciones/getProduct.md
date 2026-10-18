@@ -34,6 +34,8 @@ Esta operación cubre CA-01, CA-02 de US05; el resto lo cubre [searchProducts](s
 2. `GetProductService` busca con `findById` y lanza `ProductNotFoundException` (404) si no existe.
 3. Devuelve `ProductResult`, también para productos `DISCONTINUED` (INV-10), y el controlador responde 200.
 
+El diagrama de secuencia de esta operación está en [diagramas.md](../diagramas.md#getproduct-us05).
+
 ## Invariantes
 
 | ID | Regla | Dónde se garantiza |

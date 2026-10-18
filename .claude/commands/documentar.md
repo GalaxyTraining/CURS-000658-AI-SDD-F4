@@ -35,5 +35,9 @@ Si se indicó `$ARGUMENTS`, regenera solo esa sección.
    - `decisiones.md` — resumen de una línea por ADR con enlace.
 4. **Verifica:** todos los enlaces relativos apuntan a archivos existentes; ningún `operationId`, código de
    error, estado o categoría aparece escrito distinto a la spec; `python tools/spec_sync.py` sigue igual.
-5. **Informe:** archivos generados, divergencias detectadas y mensaje de commit propuesto
-   (`docs: documentación técnica generada desde specs`). No hagas commit.
+5. **Informe:**
+   - archivos generados;
+   - divergencias detectadas, cada una con ID `DOC-AAAAMMDD-NN` (fecha + correlativo), listadas también
+     en la sección "Divergencias detectadas" de `docs/tecnica/README.md`;
+   - mensaje de commit propuesto (`docs: documentación técnica generada desde specs`).
+   No hagas commit.

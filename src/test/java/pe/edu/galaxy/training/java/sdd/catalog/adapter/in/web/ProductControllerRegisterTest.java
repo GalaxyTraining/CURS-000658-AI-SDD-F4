@@ -90,6 +90,24 @@ class ProductControllerRegisterTest {
                 pe.edu.galaxy.training.java.sdd.catalog.domain.model.ProductCategory.ELECTRONICS));
     }
 
+    /** domain/catalogs.md: SPORTS was added to the closed catalog (contract 1.1.0). */
+    @Test
+    void US01_CA01_registerWithSportsCategory_returns201() {
+        when(registerProductUseCase.register(any())).thenReturn(draft(new BigDecimal("89.90"), "SPORTS"));
+
+        MvcTestResult result = post("""
+                {"sku":"SPO-0001","name":"Yoga mat","price":89.90,"category":"SPORTS"}
+                """);
+
+        assertThat(result).hasStatus(HttpStatus.CREATED);
+        assertThat(result).bodyJson().extractingPath("$.category").isEqualTo("SPORTS");
+
+        ArgumentCaptor<RegisterProductCommand> command = ArgumentCaptor.forClass(RegisterProductCommand.class);
+        verify(registerProductUseCase).register(command.capture());
+        assertThat(command.getValue().category())
+                .isEqualTo(pe.edu.galaxy.training.java.sdd.catalog.domain.model.ProductCategory.SPORTS);
+    }
+
     @Test
     void US01_CA02_duplicateSku_returns409DuplicateSku() {
         when(registerProductUseCase.register(any()))
